@@ -1,4 +1,4 @@
-# app.py (Full Hospital ERP with A4 Auto-Print)
+# app.py (Full Hospital ERP with A4 Auto-Print - Fixed Indentation)
 import streamlit as st
 import pandas as pd
 import sqlite3
@@ -61,7 +61,7 @@ st.markdown("""
 current_date = datetime.now().strftime('%Y-%m-%d')
 current_year = datetime.now().strftime('%Y')
 
-# --- SIDEBAR UI (হুবহু রোগ মুক্তি ড্যাশবোর্ডের রেপ্লিকা) ---
+# --- SIDEBAR UI ---
 st.sidebar.markdown("<h2 style='color:#1E3A8A; text-align:center;'>Dr. Jashim Mukul Hospital</h2>", unsafe_allow_html=True)
 st.sidebar.markdown(f"📅 **Date:** {datetime.now().strftime('%d %B, %Y')}")
 st.sidebar.write("---")
@@ -129,7 +129,7 @@ if choice == "📝 Diagnostic Billing & A4 Print":
         st.markdown(f"### **Net Payable:** {total_payable:,.2f} TK")
         st.markdown(f"### **Due Outstanding:** <span style='color:red;'>{due_amount:,.2f} TK</span>", unsafe_allow_html=True)
 
-    if st.button("Save Bill and Generate Receipt"):
+    if st.button("Save Transaction & Generate Receipt"):
         if p_name and p_phone and selected_base:
             test_str = ", ".join(selected_base)
             c.execute('''
@@ -192,7 +192,7 @@ if choice == "📝 Diagnostic Billing & A4 Print":
         </div>
         """
         st.markdown(a4_html, unsafe_allow_html=True)
-        if st.button("🖨️ Print A4 Receipt Now", class_name="no-print"):
+        if st.button("🖨️ Print A4 Receipt Now"):
             st.markdown("<script>window.print();</script>", unsafe_allow_html=True)
 
 # --- MODULE 2: PATIENT ADMISSION ---
