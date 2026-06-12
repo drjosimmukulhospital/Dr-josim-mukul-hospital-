@@ -3,99 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ডাঃ জসিম মুকুল হসপিটাল</title>
+    <title>ডাঃ জসিম মুকুল হসপিটাল - কাউন্টার বিলিং</title>
+    <!-- Tailwind CSS (ডিজাইন সুন্দর ও মোবাইল রেসপনসিভ করার জন্য) -->
+    <script src="https://jsdelivr.net"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f4f8; color: #333; }
-        header { background-color: #004085; color: white; padding: 30px 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        header h1 { margin: 0; font-size: 28px; }
-        header p { margin: 5px 0 0 0; font-size: 16px; color: #cce5ff; }
-        .container { padding: 20px; max-width: 1000px; margin: auto; }
-        .card { background: white; padding: 25px; margin-bottom: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        h2 { color: #004085; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-top: 0; }
-        
-        /* Doctors Grid Design */
-        .doctors-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 15px; }
-        .doc-card { background: #fff; border: 1px solid #e2e8f0; padding: 20px; border-radius: 10px; border-left: 5px solid #0056b3; transition: transform 0.2s; }
-        .doc-card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .doc-name { font-size: 18px; font-weight: bold; color: #0056b3; margin-bottom: 5px; }
-        .doc-deg { font-size: 14px; color: #6c757d; margin-bottom: 8px; font-style: italic; }
-        .doc-exp { font-size: 15px; color: #2d3748; line-height: 1.4; }
-        .doc-time { font-size: 13px; color: #e53e3e; margin-top: 8px; font-weight: bold; background: #fff5f5; padding: 4px 8px; border-radius: 4px; display: inline-block; }
-
-        .btn { display: inline-block; background: #28a745; color: white; padding: 12px 25px; text-align: center; border-radius: 30px; text-decoration: none; font-weight: bold; margin-top: 15px; box-shadow: 0 4px 6px rgba(40, 167, 69, 0.2); }
-        .btn:hover { background: #218838; }
-        .footer { background: #1a202c; color: #a0aec0; text-align: center; padding: 20px; font-size: 14px; margin-top: 40px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     </style>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
 
-    <header>
-        <h1>ডাঃ জসিম মুকুল হসপিটাল</h1>
-        <p>আপনার সেবায় আমরা সর্বদা নিয়োজিত</p>
+    <!-- হেডার বা নাম -->
+    <header class="bg-blue-600 text-white text-center py-4 shadow-md">
+        <h1 class="text-xl md:text-2xl font-bold">ডাঃ জসিম মুকুল হসপিটাল & ডায়াগনস্টিক সেন্টার</h1>
+        <p class="text-sm opacity-90">লাইভ কাউন্টার বিলিং ও হিসাব ম্যানেজমেন্ট</p>
     </header>
 
-    <div class="container">
+    <!-- মূল কন্টেন্ট (মোবাইলে এক কলাম, পিসিতে দুই কলাম দেখাবে) -->
+    <main class="flex-1 p-4 max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
         
-        <!-- About Section -->
-        <div class="card">
-            <h2>আমাদের সম্পর্কে</h2>
-            <p>ডাঃ জসিম মুকুল হসপিটাল পটুয়াখালীর গলাচিপায় অবস্থিত একটি সর্বাধুনিক চিকিৎসা সেবা কেন্দ্র। এলাকার সাধারণ মানুষের দোরগোড়ায় উন্নত ও নির্ভুল চিকিৎসা নিশ্চিত করাই আমাদের মূল লক্ষ্য। অভিজ্ঞ চিকিৎসক এবং আধুনিক যন্ত্রপাতির সমন্বয়ে আমরা ২৪ ঘণ্টা সেবা প্রদান করে আসছি।</p>
+        <!-- বাম পাশ: নতুন বিল তৈরি করার ফর্ম -->
+        <div class="bg-white p-5 rounded-lg shadow border border-gray-200">
+            <h2 class="text-lg font-bold text-blue-600 mb-4 border-b pb-2">📋 নতুন ক্যাশ মেমো / বিল</h2>
+            
+            <form id="billingForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-1">রোগীর নাম:</label>
+                    <input type="text" id="pName" placeholder="উদা: আবুল কাসেম" class="w-full border p-2 rounded focus:ring focus:ring-blue-200 outline-none" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-1">মোবাইল নম্বর:</label>
+                    <input type="tel" id="pPhone" placeholder="017XXXXXXXX" class="w-full border p-2 rounded focus:ring focus:ring-blue-200 outline-none" required>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">ডাক্তার ফি (টাকা):</label>
+                        <input type="number" id="docFee" value="0" class="w-full border p-2 rounded focus:ring focus:ring-blue-200 outline-none" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">ল্যাব/টেস্ট ফি (টাকা):</label>
+                        <input type="number" id="labFee" value="0" class="w-full border p-2 rounded focus:ring focus:ring-blue-200 outline-none" required>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">ডিসকাউন্ট/ছাড় (টাকা):</label>
+                        <input type="number" id="discount" value="0" class="w-full border p-2 rounded focus:ring focus:ring-blue-200 outline-none" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">নগদ পরিশোধ (টাকা):</label>
+                        <input type="number" id="paid" value="0" class="w-full border p-2 rounded focus:ring focus:ring-blue-200 outline-none" required>
+                    </div>
+                </div>
+                <button type="button" onclick="calculateBill()" class="w-full bg-blue-600 text-white font-bold py-2 rounded shadow hover:bg-blue-700 transition">💾 বিল সেভ করুন</button>
+            </form>
         </div>
 
-        <!-- Doctors Section -->
-        <div class="card">
-            <h2>আমাদের বিশেষজ্ঞ চিকিৎসকবৃন্দ</h2>
-            <div class="doctors-grid">
-                
-                <div class="doc-card">
-                    <div class="doc-name">ডাঃ মোঃ জসিম উদ্দিন (مكول)</div>
-                    <div class="doc-deg">মেডিসিন (ঢাকা)</div>
-                    <div class="doc-exp">স্ত্রী ও চর্ম রোগ বিশেষজ্ঞ এবং সনোলজিস্ট।</div>
-                    <div class="doc-time">সময়: প্রতি জুম্মাবার সকাল ৯:০০ - দুপুর ২:০০</div>
+        <!-- ডান পাশ: লাইভ হিসাব ও আজকের রিপোর্ট -->
+        <div class="bg-white p-5 rounded-lg shadow border border-gray-200 flex flex-col">
+            <h2 class="text-lg font-bold text-green-600 mb-4 border-b pb-2">📊 আজকের লাইভ ক্যাশ রিপোর্ট</h2>
+            
+            <!-- মোট কালেকশন কার্ডসমূহ -->
+            <div class="grid grid-cols-3 gap-2 text-center mb-6">
+                <div class="bg-green-50 p-2 rounded border border-green-200">
+                    <span class="block text-xs font-semibold text-gray-500">মোট বিল</span>
+                    <span id="statTotal" class="text-lg font-bold text-green-700">০ ৳</span>
                 </div>
-
-                <div class="doc-card">
-                    <div class="doc-name">ডাঃ সুলতান মাহমুদ</div>
-                    <div class="doc-deg">এমবিবিএস (ঢাকা), বিসিএস (স্বাস্থ্য)</div>
-                    <div class="doc-exp">হৃদরোগ ও মেডিসিন বিশেষজ্ঞ।</div>
-                    <div class="doc-time">সময়: প্রতি সোমবার সকাল ৯:০০ টা থেকে</div>
+                <div class="bg-blue-50 p-2 rounded border border-blue-200">
+                    <span class="block text-xs font-semibold text-gray-500">মোট ক্যাশ</span>
+                    <span id="statPaid" class="text-lg font-bold text-blue-700">০ ৳</span>
                 </div>
-
-                <div class="doc-card">
-                    <div class="doc-name">ডাঃ জহির উদ্দিন আহম্মেদ</div>
-                    <div class="doc-deg">এমবিবিএস, বিসিএস (স্বাস্থ্য), এফসিপিএস (পার্ট)</div>
-                    <div class="doc-exp">সার্জন ও ইউরোলজিস্ট বিশেষজ্ঞ (নাক, কান, গলা ও থাইরয়েড রোগে অভিজ্ঞ)।</div>
-                    <div class="doc-time">সময়: প্রতি শুক্রবার সকাল ৯:০০ টা থেকে</div>
+                <div class="bg-red-50 p-2 rounded border border-red-200">
+                    <span class="block text-xs font-semibold text-gray-500">মোট বকেয়া</span>
+                    <span id="statDue" class="text-lg font-bold text-red-700">০ ৳</span>
                 </div>
+            </div>
 
-                <div class="doc-card">
-                    <div class="doc-name">ডাঃ রায়হান মোস্তফা</div>
-                    <div class="doc-deg">এমবিবিএস (ঢাকা), এফসিপিএস (সার্জারি)</div>
-                    <div class="doc-exp">জেনারেল ও ল্যাপারোস্কোপিক সার্জন এবং ক্যান্সার বিশেষজ্ঞ।</div>
-                </div>
-
-                <div class="doc-card">
-                    <div class="doc-name">ডাঃ রীনা জামান</div>
-                    <div class="doc-deg">এমবিবিএস (ঢাকা), ডিএইচএস (লন্ডন)</div>
-                    <div class="doc-exp">স্ত্রীরোগ ও প্রসূতি বিদ্যা বিশেষজ্ঞ।</div>
-                </div>
-
+            <!-- সাম্প্রতিক মেমো সমূহের তালিকা -->
+            <h3 class="text-sm font-bold text-gray-600 mb-2">📜 সাম্প্রতিক মেমো তালিকা:</h3>
+            <div class="flex-1 overflow-y-auto max-h-60 border rounded p-2 bg-gray-50 space-y-2" id="invoiceList">
+                <p class="text-gray-400 text-xs text-center py-4">এখনো কোনো বিল তৈরি করা হয়নি।</p>
             </div>
         </div>
 
-        <!-- Contact Section -->
-        <div class="card" style="text-align: center;">
-            <h2>যোগাযোগ ও সিরিয়াল বুকিং</h2>
-            <p style="font-size: 18px; margin: 10px 0;"><strong>ঠিকানা:</strong> ২১৪/১ ভিআইপি রোড, (ইউএনও অফিসের পশ্চিম পার্শ্বে), গলাচিপা, পটুয়াখালী।</p>
-            <p style="font-size: 20px; color: #e53e3e; font-weight: bold; margin: 10px 0;">সিরিয়ালের জন্য ফোন করুন: 01312-049981</p>
-            <a href="tel:01312049981" class="btn">সরাসরি কল করতে এখানে চাপুন</a>
+    </main>
+
+    <!-- ফুটার -->
+    <footer class="bg-gray-800 text-white text-center py-2 text-xs">
+        &copy; ২০২৬ ডাঃ জসিম মুকুল হসপিটাল। অল রাইটস রিজার্ভড।
+    </footer>
+
+    <!-- লজিক স্ক্রিপ্ট (হিসাব স্বয়ংক্রিয়ভাবে করার জন্য) -->
+    <script>
+        let totalBillSum = 0;
+        let totalPaidSum = 0;
+        let totalDueSum = 0;
+
+        function calculateBill() {
+            let name = document.getElementById('pName').value;
+            let phone = document.getElementById('pPhone').value;
+            let docFee = parseFloat(document.getElementById('docFee').value) || 0;
+            let labFee = parseFloat(document.getElementById('labFee').value) || 0;
+            let discount = parseFloat(document.getElementById('discount').value) || 0;
+            let paid = parseFloat(document.getElementById('paid').value) || 0;
+
+            if(!name || !phone) {
+                alert("দয়া করে রোগীর নাম এবং মোবাইল নম্বর সঠিকভাবে দিন।");
+                return;
+            }
+
+            let total = (docFee + labFee) - discount;
+            let due = total - paid;
+            if(due < 0) due = 0;
+
+            // লাইভ ক্যালকুলেশন আপডেট
+            totalBillSum += total;
+            totalPaidSum += paid;
+            totalDueSum += due;
+
+            document.getElementById('statTotal').innerText = totalBillSum + " ৳";
+            document.getElementById('statPaid').innerText = totalPaidSum + " ৳";
+            document.getElementById('statDue').innerText = totalDueSum + " ৳";
+
+            // মেমো লিস্টে যোগ করা
+            let invoiceList = document.getElementById('invoiceList');
+            if(totalBillSum === total) invoiceList.innerHTML = ''; // প্রথম বিলের সময় খালি করা
+            
+            let item = document.createElement('div');
+            item.className = "bg-white p-2 rounded shadow-sm border text-xs flex justify-between items-center";
+            item.innerHTML = `
+                <div>
+                    <span class="font-bold text-gray-700">${name} (${phone})</span>
+                    <span class="block text-gray-400 text-[10px]">${new Date().toLocaleTimeString('bn-BD')}</span>
+                </div>
+                <div class="text-right">
+                    <span class="block font-bold text-green-600">বিল: ${total} ৳</span>
+                    <span class="block text-red-500">বাকি: ${due} ৳</span>
+                </div>
+            `;
+            invoiceList.prepend(item);
+
+            // ফর্ম রিসেট করা
+            document.getElementById('billingForm').reset();
         </div>
-
-    </div>
-
-    <div class="footer">
-        &copy; 2026 ডাঃ জসিম মুকুল হসপিটাল। সর্বস্বত্ব সংরক্ষিত।
-    </div>
-
+    </script>
 </body>
 </html>
