@@ -1,12 +1,12 @@
-# app.py (Main Controller)
+# app.py (Main Controller - Updated)
 import streamlit as st
 import pandas as pd
 import sqlite3
 from datetime import datetime
 
-# Import pages from the new folder
-from pages.1_Billing import show_billing_page
-from pages.2_Search import show_search_page
+# Corrected Imports without numbers
+from pages.Billing import show_billing_page
+from pages.Search import show_search_page
 
 # Database Configuration
 conn = sqlite3.connect('hospital_management_v3.db', check_same_thread=False)
