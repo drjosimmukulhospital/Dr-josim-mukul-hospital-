@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Jasim Mukul Hospital - Billing System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            background: #ffffff;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 8px solid #00875a;
+        }
+        .header {
+            text-align: center;
+            color: #cc0000;
+            margin-bottom: 25px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+        .header p {
+            margin: 5px 0;
+            font-size: 18px;
+            font-style: italic;
+        }
+        .patient-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input, textarea, select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .test-section {
+            margin-top: 20px;
+        }
+        .test-section h3 {
+            border-bottom: 2px solid #00875a;
+            padding-bottom: 5px;
+            color: #00875a;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .billing-summary {
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        .billing-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .billing-box label {
+            width: 120px;
+            text-align: right;
+        }
+        .billing-box input {
+            width: 150px;
+            text-align: right;
+            font-weight: bold;
+        }
+        .btn-container {
+            margin-top: 25px;
+            text-align: right;
+        }
+        button {
+            background-color: #00875a;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #006644;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- হাসপাতালের নাম ও স্বাগতম বার্তা (কাগজের লাল লেখা অনুযায়ী) -->
+    <div class="header">
+        <h1>Welcome. Dr. Jasim Mukul Hospital</h1>
+        <p>App: এখানে থাকবে যা যা</p>
+    </div>
+
+    <!-- রোগী ও তথ্যের ফর্ম -->
+    <div class="patient-info">
+        <div class="form-group">
+            <label>রোগীর নাম:</label>
+            <input type="text" id="patientName" placeholder="নাম লিখুন">
+        </div>
+        <div class="form-group">
+            <label>বয়স:</label>
+            <input type="text" id="patientAge" placeholder="বয়স">
+        </div>
+        <div class="form-group">
+            <label>জেন্ডার:</label>
+            <select id="patientGender">
+                <option value="Male">পুরুষ (Male)</option>
+                <option value="Female">মহিলা (Female)</option>
+                <option value="Other">অন্যান্য</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>তারিখ:</label>
+            <input type="date" id="visitDate">
+        </div>
+        <div class="form-group full-width">
+            <label>রোগীর ঠিকানা:</label>
+            <textarea id="patientAddress" rows="2" placeholder="ঠিকানা লিখুন"></textarea>
+        </div>
+    </div>
+
+    <!-- টেস্ট বা ডায়াগনস্টিক বিবরণ টেবিল -->
+    <div class="test-section">
+        <h3>টেস্ট বিবরণ (Test Description)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 10%;">SL No.</th>
+                    <th style="width: 60%;">Test Description</th>
+                    <th style="width: 30%;">Price (TK)</th>
+                </tr>
+            </thead>
+            <tbody id="testTableBody">
+                <tr>
+                    <td>1</td>
+                    <td><input type="text" style="width:95%;" placeholder="টেস্টের নাম" value="হিমোগ্লোবিন / সিবিসি"></td>
+                    <td><input type="number" class="test-price" style="width:90%;" placeholder="0.00" oninput="calculateTotal()"></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><input type="text" style="width:95%;" placeholder="টেস্টের নাম"></td>
+                    <td><input type="number" class="test-price" style="width:90%;" placeholder="0.00" oninput="calculateTotal()"></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><input type="text" style="width:95%;" placeholder="টেস্টের নাম"></td>
+                    <td><input type="number" class="test-price" style="width:90%;" placeholder="0.00" oninput="calculateTotal()"></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" style="padding: 5px 10px; font-size: 12px; margin-top: 5px;" onclick="addTableRow()">+ আরও যোগ করুন</button>
+    </div>
+
+    <!-- বিলিং এবং ডিসকাউন্ট সেকশন (কাগজের নিচের বক্স অনুযায়ী) -->
+    <div class="billing-summary">
+        <div class="billing-box">
+            <label>মোট প্রাইজ (Price):</label>
+            <input type="number" id="totalPrice" readonly value="0">
+        </div>
+        <div class="billing-box">
+            <label>Discount (মোট):</label>
+            <input type="number" id="discount" value="0" oninput="calculateTotal()">
+        </div>
+        <div class="billing-box">
+            <label>মোট পেইড (Net):</label>
+            <input type="number" id="netPaid" readonly value="0" style="background-color: #eafaf1; color: #00875a;">
+        </div>
+    </div>
+
+    <!-- সাবমিট বা প্রিন্ট বাটন -->
+    <div class="btn-container">
+        <button onclick="saveData()">ডাটা সেভ ও প্রিন্ট করুন</button>
+    </div>
+</div>
+
+<script>
+    // আজকের তারিখ স্বয়ংক্রিয়ভাবে সেট করার জন্য
+    document.getElementById('visitDate').valueAsDate = new Date();
+
+    // মোট প্রাইজ এবং ডিসকাউন্ট হিসাব করার ফাংশন
+    function calculateTotal() {
+        let priceInputs = document.querySelectorAll('.test-price');
+        let total = 0;
+
+        priceInputs.forEach(input => {
+            let val = parseFloat(input.value);
+            if (!isNaN(val)) {
+                total += val;
+            }
+        });
+
+        document.getElementById('totalPrice').value = total.toFixed(2);
+
+        let discount = parseFloat(document.getElementById('discount').value);
+        if (isNaN(discount)) discount = 0;
+
+        let netPaid = total - discount;
+        if (netPaid < 0) netPaid = 0;
+
+        document.getElementById('netPaid').value = netPaid.toFixed(2);
+    }
+
+    // টেবিলে নতুন রো যোগ করার ফাংশন
+    function addTableRow() {
+        let table = document.getElementById('testTableBody');
+        let rowCount = table.rows.length + 1;
+        let row = table.insertRow(-1);
+
+        row.innerHTML = `
+            <td>${rowCount}</td>
+            <td><input type="text" style="width:95%;" placeholder="টেস্টের নাম"></td>
+            <td><input type="number" class="test-price" style="width:90%;" placeholder="0.00" oninput="calculateTotal()"></td>
+        `;
+    }
+
+    // ডাটা সেভ করার ডেমো ফাংশন
+    function saveData() {
+        alert("ডাটা সফলভাবে ডাটাবেজে সংরক্ষিত হয়েছে এবং প্রিন্ট কমান্ড পাঠানো হয়েছে।");
+        window.print();
+    }
+</script>
+
+</body>
+          </html>
