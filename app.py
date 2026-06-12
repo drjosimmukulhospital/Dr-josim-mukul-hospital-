@@ -1,4 +1,4 @@
-# app.py (Main Controller)
+# app.py (Main Controller - Fixed Syntax)
 import streamlit as st
 import pandas as pd
 import sqlite3
@@ -35,8 +35,8 @@ st.set_page_config(page_title="Dr. Jashim Mukul Hospital", layout="wide")
 current_date = datetime.now().strftime('%Y-%m-%d')
 current_year = datetime.now().strftime('%Y')
 
-# --- SIDEBAR UI ( হুবহু রোগ মুক্তি ড্যাশবোর্ডের মতো ) ---
-st.sidebar.markdown(<h2 style='color:#1E3A8A; text-align:center;'>Dr. Jashim Mukul Hospital</h2>, unsafe_allow_html=True)
+# --- SIDEBAR UI ---
+st.sidebar.markdown("<h2 style='color:#1E3A8A; text-align:center;'>Dr. Jashim Mukul Hospital</h2>", unsafe_allow_html=True)
 st.sidebar.markdown(f"📅 **Date:** {datetime.now().strftime('%d %B, %Y')}")
 st.sidebar.write("---")
 
