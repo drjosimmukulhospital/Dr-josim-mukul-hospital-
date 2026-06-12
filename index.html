@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dr. Jasim Mukul Hospital - Billing System</title>
+    <title>Dr. Jasim Mukul Hospital & Diagnostic</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -18,28 +18,79 @@
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-top: 8px solid #00875a;
+            position: relative;
+            min-height: 950px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-        .header {
+        /* 🩺 Official Hospital Pad Header */
+        .pad-header {
             text-align: center;
-            color: #cc0000;
+            border-bottom: 2px solid #00875a;
+            padding-bottom: 12px;
             margin-bottom: 25px;
         }
-        .header h1 {
-            margin: 0;
+        .logo-text-en {
+            color: #cc0000;
             font-size: 26px;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 0.5px;
         }
-        .header p {
-            margin: 5px 0;
-            font-size: 18px;
+        .logo-text-en span {
+            color: #00875a;
+        }
+        .slogan {
+            font-size: 14px;
+            color: #555;
+            margin: 6px 0 0 0;
             font-style: italic;
+            font-weight: 500;
+        }
+        /* 📜 Background Watermark */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 90px;
+            font-weight: bold;
+            color: rgba(0, 135, 90, 0.04);
+            font-family: Arial, sans-serif;
+            letter-spacing: 5px;
+            pointer-events: none;
+            user-select: none;
+            text-align: center;
+            border: 10px double rgba(0, 135, 90, 0.04);
+            padding: 20px;
+            border-radius: 50%;
+        }
+        .receipt-title {
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            color: #333;
+            border: 1px solid #333;
+            width: 150px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 5px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            text-transform: uppercase;
+        }
+        .main-content {
+            flex-grow: 1;
         }
         .patient-info {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             background: #f9f9f9;
-            padding: 20px;
+            padding: 15px;
             border-radius: 6px;
             border: 1px solid #e0e0e0;
             margin-bottom: 25px;
@@ -55,6 +106,7 @@
             font-weight: bold;
             margin-bottom: 5px;
             color: #333;
+            font-size: 13px;
         }
         input, textarea, select {
             padding: 10px;
@@ -62,13 +114,19 @@
             border-radius: 4px;
             font-size: 14px;
         }
-        .test-section {
-            margin-top: 20px;
+        .print-value {
+            display: none;
+            padding: 5px 0;
+            font-size: 15px;
+            border-bottom: 1px dotted #ccc;
         }
         .test-section h3 {
             border-bottom: 2px solid #00875a;
             padding-bottom: 5px;
             color: #00875a;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         table {
             width: 100%;
@@ -77,8 +135,9 @@
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 12px;
+            padding: 10px;
             text-align: left;
+            font-size: 14px;
         }
         th {
             background-color: #f2f2f2;
@@ -88,7 +147,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            gap: 10px;
+            gap: 8px;
         }
         .billing-box {
             display: flex;
@@ -96,8 +155,9 @@
             gap: 10px;
         }
         .billing-box label {
-            width: 120px;
+            width: 150px;
             text-align: right;
+            font-size: 14px;
         }
         .billing-box input {
             width: 150px;
@@ -113,7 +173,7 @@
             color: white;
             border: none;
             padding: 12px 25px;
-            font-size: 16px;
+            font-size: 15px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
@@ -121,145 +181,133 @@
         button:hover {
             background-color: #006644;
         }
+        /* 🗺️ Official Pad Footer Style */
+        .pad-footer {
+            background-color: #1a4d80;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            margin-top: 30px;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+        }
+
+        /* 🖨️ CSS Media Query for Professional Printing */
+        @media print {
+            body {
+                background-color: #fff;
+                padding: 0;
+                margin: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 10px;
+                max-width: 100%;
+                min-height: 98vh;
+            }
+            input, textarea, select, button, .btn-container {
+                display: none !important;
+            }
+            .print-value {
+                display: block !important;
+            }
+            .patient-info {
+                background: none !important;
+                border: none !important;
+                padding: 0 !important;
+                margin-bottom: 20px;
+            }
+            th {
+                background-color: #f2f2f2 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .pad-footer {
+                background-color: #1a4d80 !important;
+                color: #fff !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            tr.empty-row {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- হাসপাতালের নাম ও স্বাগতম বার্তা (কাগজের লাল লেখা অনুযায়ী) -->
-    <div class="header">
-        <h1>Welcome. Dr. Jasim Mukul Hospital</h1>
-        <p>App: এখানে থাকবে যা যা</p>
-    </div>
+    <!-- Background Watermark -->
+    <div class="watermark">DJMH</div>
 
-    <!-- রোগী ও তথ্যের ফর্ম -->
-    <div class="patient-info">
-        <div class="form-group">
-            <label>রোগীর নাম:</label>
-            <input type="text" id="patientName" placeholder="নাম লিখুন">
+    <div class="main-content">
+        <!-- Hospital Pad Header -->
+        <div class="pad-header">
+            <h1 class="logo-text-en">DR. JASIM MUKUL HOSPITAL <span>& DIAGNOSTIC</span></h1>
+            <p class="slogan">"Modern Medical Services for Everyone"</p>
         </div>
-        <div class="form-group">
-            <label>বয়স:</label>
-            <input type="text" id="patientAge" placeholder="বয়স">
+
+        <div class="receipt-title">Money Receipt</div>
+
+        <!-- Patient Information Form -->
+        <div class="patient-info">
+            <div class="form-group">
+                <label>Patient Name:</label>
+                <input type="text" id="patientName" placeholder="Enter patient name">
+                <div id="pNamePrint" class="print-value">-</div>
+            </div>
+            <div class="form-group">
+                <label>Age:</label>
+                <input type="text" id="patientAge" placeholder="Enter age">
+                <div id="pAgePrint" class="print-value">-</div>
+            </div>
+            <div class="form-group">
+                <label>Gender:</label>
+                <select id="patientGender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                <div id="pGenderPrint" class="print-value">-</div>
+            </div>
+            <div class="form-group">
+                <label>Date:</label>
+                <input type="date" id="visitDate">
+                <div id="pDatePrint" class="print-value">-</div>
+            </div>
+            <div class="form-group full-width">
+                <label>Address:</label>
+                <textarea id="patientAddress" rows="1" placeholder="Enter address"></textarea>
+                <div id="pAddressPrint" class="print-value">-</div>
+            </div>
         </div>
-        <div class="form-group">
-            <label>জেন্ডার:</label>
-            <select id="patientGender">
-                <option value="Male">পুরুষ (Male)</option>
-                <option value="Female">মহিলা (Female)</option>
-                <option value="Other">অন্যান্য</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>তারিখ:</label>
-            <input type="date" id="visitDate">
-        </div>
-        <div class="form-group full-width">
-            <label>রোগীর ঠিকানা:</label>
-            <textarea id="patientAddress" rows="2" placeholder="ঠিকানা লিখুন"></textarea>
-        </div>
-    </div>
 
-    <!-- টেস্ট বা ডায়াগনস্টিক বিবরণ টেবিল -->
-    <div class="test-section">
-        <h3>টেস্ট বিবরণ (Test Description)</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 10%;">SL No.</th>
-                    <th style="width: 60%;">Test Description</th>
-                    <th style="width: 30%;">Price (TK)</th>
-                </tr>
-            </thead>
-            <tbody id="testTableBody">
-                <tr>
-                    <td>1</td>
-                    <td><input type="text" style="width:95%;" placeholder="টেস্টের নাম" value="হিমোগ্লোবিন / সিবিসি"></td>
-                    <td><input type="number" class="test-price" style="width:90%;" placeholder="0.00" oninput="calculateTotal()"></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><input type="text" style="width:95%;" placeholder="টেস্টের নাম"></td>
-                    <td><input type="number" class="test-price" style="width:90%;" placeholder="0.00" oninput="calculateTotal()"></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><input type="text" style="width:95%;" placeholder="টেস্টের নাম"></td>
-                    <td><input type="number" class="test-price" style="width:90%;" placeholder="0.00" oninput="calculateTotal()"></td>
-                </tr>
-            </tbody>
-        </table>
-        <button type="button" style="padding: 5px 10px; font-size: 12px; margin-top: 5px;" onclick="addTableRow()">+ আরও যোগ করুন</button>
-    </div>
-
-    <!-- বিলিং এবং ডিসকাউন্ট সেকশন (কাগজের নিচের বক্স অনুযায়ী) -->
-    <div class="billing-summary">
-        <div class="billing-box">
-            <label>মোট প্রাইজ (Price):</label>
-            <input type="number" id="totalPrice" readonly value="0">
-        </div>
-        <div class="billing-box">
-            <label>Discount (মোট):</label>
-            <input type="number" id="discount" value="0" oninput="calculateTotal()">
-        </div>
-        <div class="billing-box">
-            <label>মোট পেইড (Net):</label>
-            <input type="number" id="netPaid" readonly value="0" style="background-color: #eafaf1; color: #00875a;">
-        </div>
-    </div>
-
-    <!-- সাবমিট বা প্রিন্ট বাটন -->
-    <div class="btn-container">
-        <button onclick="saveData()">ডাটা সেভ ও প্রিন্ট করুন</button>
-    </div>
-</div>
-
-<script>
-    // আজকের তারিখ স্বয়ংক্রিয়ভাবে সেট করার জন্য
-    document.getElementById('visitDate').valueAsDate = new Date();
-
-    // মোট প্রাইজ এবং ডিসকাউন্ট হিসাব করার ফাংশন
-    function calculateTotal() {
-        let priceInputs = document.querySelectorAll('.test-price');
-        let total = 0;
-
-        priceInputs.forEach(input => {
-            let val = parseFloat(input.value);
-            if (!isNaN(val)) {
-                total += val;
-            }
-        });
-
-        document.getElementById('totalPrice').value = total.toFixed(2);
-
-        let discount = parseFloat(document.getElementById('discount').value);
-        if (isNaN(discount)) discount = 0;
-
-        let netPaid = total - discount;
-        if (netPaid < 0) netPaid = 0;
-
-        document.getElementById('netPaid').value = netPaid.toFixed(2);
-    }
-
-    // টেবিলে নতুন রো যোগ করার ফাংশন
-    function addTableRow() {
-        let table = document.getElementById('testTableBody');
-        let rowCount = table.rows.length + 1;
-        let row = table.insertRow(-1);
-
-        row.innerHTML = `
-            <td>${rowCount}</td>
-            <td><input type="text" style="width:95%;" placeholder="টেস্টের নাম"></td>
-            <td><input type="number" class="test-price" style="width:90%;" placeholder="0.00" oninput="calculateTotal()"></td>
-        `;
-    }
-
-    // ডাটা সেভ করার ডেমো ফাংশন
-    function saveData() {
-        alert("ডাটা সফলভাবে ডাটাবেজে সংরক্ষিত হয়েছে এবং প্রিন্ট কমান্ড পাঠানো হয়েছে।");
-        window.print();
-    }
-</script>
-
-</body>
-          </html>
+        <!-- Test Description Table -->
+        <div class="test-section">
+            <h3>Test Details</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">SL No.</th>
+                        <th style="width: 65%;">Test Description</th>
+                        <th style="width: 25%; text-align: right;">Price (TK)</th>
+                    </tr>
+                </thead>
+                <tbody id="testTableBody">
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <input type="text" style="width:95%;" class="test-name" placeholder="e.g. CBC, Lipid Profile">
+                            <div class="print-value test-name-print"></div>
+                        </td>
+                        <td>
+                            <input type="number" class="test-price" style="width:90%; text-align: right;" placeholder="0.00" oninput="calculateTotal()">
+                            <div class="print-value test-price-print" style="text-align: right;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>
+                            <input type="text" style="width:95%;" class="test-name" placeholder="">
