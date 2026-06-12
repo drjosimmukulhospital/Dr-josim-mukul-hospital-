@@ -18,14 +18,12 @@ def show_billing_page(c, conn, current_date, current_year):
     st.write("---")
     st.subheader("Test Selection & Live Rate Entry")
     
-    # Static Catalog + Custom Test Insertion ( হুবহু আপনার স্ক্রিনশটের মডেল )
     test_catalog = {"CBC": 400.0, "RBS": 150.0, "Lipid Profile": 1000.0, "USG": 800.0, "X-Ray": 500.0}
     selected_base = st.multiselect("Select Tests from Catalog:", list(test_catalog.keys()))
     
     subtotal = sum([test_catalog[t] for t in selected_base])
     
-    # ➕ স্ক্রিনশটের মতো তালিকা বহির্ভূত কাস্টম টেস্ট যোগ করার ঘর
-    st.markdown("#### ➕ Add Custom Extra Test (ঐচ্ছিক)")
+    st.markdown("#### ➕ Add Custom Extra Test (Optional)")
     c_col1, c_col2 = st.columns(2)
     with c_col1:
         custom_name = st.text_input("Custom Test Name:")
@@ -52,7 +50,7 @@ def show_billing_page(c, conn, current_date, current_year):
         st.markdown(f"### **Net Payable:** {total_payable:,.2f} TK")
         st.markdown(f"### **Due Outstanding:** <span style='color:red;'>{due_amount:,.2f} TK</span>", unsafe_allow_html=True)
 
-    if st.button("Save Bill and Go to Print (ডাটা সেভ করুন)"):
+    if st.button("Save Bill and Go to Print"):
         if p_name and p_phone and selected_base:
             test_str = ", ".join(selected_base)
             c.execute('''
@@ -63,4 +61,3 @@ def show_billing_page(c, conn, current_date, current_year):
             st.success(f"🎉 Diagnostic Bill saved successfully for {p_name}!")
         else:
             st.error("⚠️ Validation Error: Please input Patient Name, Phone and choose a Test.")
-
