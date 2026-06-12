@@ -1,11 +1,10 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dr. Jasim Mukul Hospital & Diagnostic</title>
     <style>
-        /* 📱 মোবাইল স্ক্রিনের জন্য স্ক্রোলিং সচল করা */
         html, body {
             background-color: #f4f7f6;
             margin: 0;
@@ -32,7 +31,6 @@ DOCTYPE html>
             position: relative;
             box-sizing: border-box;
         }
-        /* 🩺 Official Pad Header */
         .pad-header {
             text-align: center;
             border-bottom: 2px solid #00875a;
@@ -56,7 +54,6 @@ DOCTYPE html>
             margin: 4px 0 0 0;
             font-style: italic;
         }
-        /* 📜 Background Watermark */
         .watermark {
             position: absolute;
             top: 40%;
@@ -173,7 +170,8 @@ DOCTYPE html>
         }
         .btn-container {
             margin-top: 15px;
-            width: 100%;
+            display: flex;
+            gap: 10px;
         }
         button {
             background-color: #00875a;
@@ -194,10 +192,12 @@ DOCTYPE html>
             margin-top: 6px;
             background-color: #555;
         }
-        button:hover {
-            background-color: #006644;
+        .btn-view {
+            background-color: #1a4d80;
         }
-        /* 🗺️ Official Pad Footer */
+        button:hover {
+            opacity: 0.9;
+        }
         .pad-footer {
             background-color: #1a4d80;
             color: white;
@@ -208,54 +208,17 @@ DOCTYPE html>
             margin-top: 20px;
             line-height: 1.4;
         }
-
-        /* 🖨️ CSS Media Query for perfect Print */
         @media print {
-            @page {
-                size: A4;
-                margin: 10mm 15mm 10mm 15mm;
-            }
-            html, body {
-                background-color: #fff;
-                overflow: visible;
-            }
-            .wrapper {
-                padding: 0;
-            }
-            .container {
-                box-shadow: none;
-                padding: 0;
-                max-width: 100%;
-                width: 100%;
-            }
-            input, textarea, select, button, .btn-container {
-                display: none !important;
-            }
-            .print-value {
-                display: block !important;
-            }
-            .patient-info {
-                background: none !important;
-                border: none !important;
-                padding: 0 !important;
-                margin-bottom: 12px;
-                gap: 6px;
-            }
-            th {
-                background-color: #f2f2f2 !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            .pad-footer {
-                background-color: #1a4d80 !important;
-                color: #fff !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-                margin-top: 40px;
-            }
-            tr.empty-row {
-                display: none !important;
-            }
+            @page { size: A4; margin: 10mm 15mm 10mm 15mm; }
+            html, body { background-color: #fff; overflow: visible; }
+            .wrapper { padding: 0; }
+            .container { box-shadow: none; padding: 0; max-width: 100%; width: 100%; }
+            input, textarea, select, button, .btn-container { display: none !important; }
+            .print-value { display: block !important; }
+            .patient-info { background: none !important; border: none !important; padding: 0 !important; margin-bottom: 12px; gap: 6px; }
+            th { background-color: #f2f2f2 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .pad-footer { background-color: #1a4d80 !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; margin-top: 40px; }
+            tr.empty-row { display: none !important; }
         }
     </style>
 </head>
@@ -263,19 +226,14 @@ DOCTYPE html>
 
 <div class="wrapper">
     <div class="container">
-        <!-- Background Watermark -->
         <div class="watermark">DJMH</div>
-
         <div class="main-content">
-            <!-- Hospital Pad Header -->
             <div class="pad-header">
                 <h1 class="logo-text-en">DR. JASIM MUKUL HOSPITAL <span>& DIAGNOSTIC</span></h1>
                 <p class="slogan">"Modern Medical Services for Everyone"</p>
             </div>
-
             <div class="receipt-title">Money Receipt</div>
 
-            <!-- Patient Information Form -->
             <div class="patient-info">
                 <div class="form-group">
                     <label>Patient Name:</label>
@@ -308,7 +266,6 @@ DOCTYPE html>
                 </div>
             </div>
 
-            <!-- Test Description Table -->
             <div class="test-section">
                 <h3>Test Details</h3>
                 <table>
@@ -319,3 +276,18 @@ DOCTYPE html>
                             <th style="width: 28%; text-align: right;">Price (TK)</th>
                         </tr>
                     </thead>
+                    <tbody id="testTableBody">
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <input type="text" style="width:95%;" class="test-name" placeholder="e.g. CBC, RBS">
+                                <div class="print-value test-name-print"></div>
+                            </td>
+                            <td>
+                                <input type="number" class="test-price" style="width:90%; text-align: right;" placeholder="0.00" oninput="calculateTotal()">
+                                <div class="print-value test-price-print" style="text-align: right;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
