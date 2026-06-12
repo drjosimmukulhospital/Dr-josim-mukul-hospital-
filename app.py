@@ -1,19 +1,12 @@
-# app.py (Main Controller - Fixed Syntax)
+# app.py (Main Landing Page)
 import streamlit as st
-import pandas as pd
 import sqlite3
-from datetime import datetime
-
-# Import modular pages from pages folder
-from pages.Billing import show_billing_page
-from pages.Search import show_search_page
-from pages.Admission import show_admission_page
 
 # Database Configuration (Multi-table for Hospital ERP)
 conn = sqlite3.connect('dr_jashim_hospital_erp.db', check_same_thread=False)
 c = conn.cursor()
 
-# Create Tables for Billing and Admission
+# Create Tables for Billing and Admission once
 c.execute('''
     CREATE TABLE IF NOT EXISTS billing (
         id INTEGER PRIMARY KEY AUTOINCREMENT, p_name TEXT, age INTEGER, gender TEXT, 
@@ -30,42 +23,21 @@ c.execute('''
 ''')
 conn.commit()
 
+# Set Page Configuration
 st.set_page_config(page_title="Dr. Jashim Mukul Hospital", layout="wide")
 
-current_date = datetime.now().strftime('%Y-%m-%d')
-current_year = datetime.now().strftime('%Y')
+# Welcome Dashboard Content
+st.markdown("<h1 style='text-align: center; color: #1E3A8A;'>🏥 Dr. Jashim Mukul Hospital</h1>", unsafe_allow_html=True)
+st.markdown("<h3 style='text-align: center; color: #4B5563;'>Diagnostic Centre & Hospital Management ERP</h3>", unsafe_allow_html=True)
+st.write("---")
 
-# --- SIDEBAR UI ---
-st.sidebar.markdown("<h2 style='color:#1E3A8A; text-align:center;'>Dr. Jashim Mukul Hospital</h2>", unsafe_allow_html=True)
-st.sidebar.markdown(f"📅 **Date:** {datetime.now().strftime('%d %B, %Y')}")
-st.sidebar.write("---")
+st.info("👈 Please select a module from the sidebar navigation to start managing Patient Registrations, Admissions, or Invoice Search.")
 
-st.sidebar.markdown("### 🛠️ MAIN NAVIGATION")
-menu = [
-    "📝 Diagnostic Billing", 
-    "🏥 Patient Admission (রোগী ভর্তি)", 
-    "🔍 Due Clearance & Invoice Search"
-]
-choice = st.sidebar.radio("Go To:", menu)
-
-# Live Analytics Calculation for Sidebar
-df_today_bill = pd.read_sql_query(f"SELECT paid_amount, due_amount FROM billing WHERE date='{current_date}'", conn)
-df_today_adm = pd.read_sql_query(f"SELECT paid_at_discharge FROM admissions WHERE admission_date='{current_date}'", conn)
-
-bill_paid = df_today_bill['paid_amount'].sum() if not df_today_bill.empty else 0.0
-bill_due = df_today_bill['due_amount'].sum() if not df_today_bill.empty else 0.0
-adm_paid = df_today_adm['paid_at_discharge'].sum() if not df_today_adm.empty else 0.0
-total_collection = bill_paid + adm_paid
-
-st.sidebar.write("---")
-st.sidebar.markdown("### 📊 Today's Live Counter")
-st.sidebar.metric("Total Cash Collection", f"{total_collection:,.2f} TK")
-st.sidebar.metric("Total Pending Due", f"{bill_due:,.2f} TK")
-
-# Routing to pages
-if choice == "📝 Diagnostic Billing":
-    show_billing_page(c, conn, current_date, current_year)
-elif choice == "🏥 Patient Admission (রোগী ভর্তি)":
-    show_admission_page(c, conn, current_date)
-elif choice == "🔍 Due Clearance & Invoice Search":
-    show_search_page(c, conn)
+# Quick Overview Cards
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.success("📝 **Diagnostic Billing**\n\nCreate invoices, manage test rates, and allow discounts.")
+with col2:
+    st.info("🏥 **Patient Admission**\n\nManage indoor patient admissions, allocate cabins, and process releases.")
+with col3:
+    st.warning("🔍 **Invoice & Due Search**\n\nLook up old receipts by phone number and clear outstanding dues.")
