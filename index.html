@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dr. Jasim Mukul Hospital - Advanced Dashboard</title>
     <style>
-        /* 🎨 ড্যাশবোর্ড থিম এবং কোর লেআউট সিএসএস */
         :root {
             --primary-blue: #1a4d80;
             --primary-green: #00875a;
             --danger-red: #cc0000;
             --bg-light: #f4f7f6;
-            --sidebar-width: 250px;
+            --sidebar-width: 260px;
         }
 
         body {
@@ -24,7 +23,32 @@
             overflow: hidden;
         }
 
-        /* 🚪 বামপাশের স্থায়ী সাইডবার (Sidebar) */
+        /* 📱 মোবাইল ফ্রেন্ডলি টপ বার (কম্পিউটারে এটি লুকানো থাকবে) */
+        .mobile-top-bar {
+            display: none;
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 12px 15px;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .menu-toggle-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: auto;
+        }
+
+        /* 🚪 বামপাশের সাইডবার (কম্পিউটারে এটি স্থায়ী ও বড় থাকবে) */
         .sidebar {
             width: var(--sidebar-width);
             background-color: #ffffff;
@@ -35,21 +59,20 @@
             height: 100%;
             box-sizing: border-box;
             overflow-y: auto;
+            z-index: 999;
+            flex-shrink: 0;
         }
 
         .sidebar-brand {
-            padding: 15px;
+            padding: 20px 15px;
             background-color: var(--primary-blue);
             color: #ffffff;
             text-align: center;
         }
         .sidebar-brand h3 { margin: 0; font-size: 16px; font-weight: bold; }
-        .sidebar-brand p { margin: 3px 0 0 0; font-size: 11px; opacity: 0.8; }
+        .sidebar-brand p { margin: 4px 0 0 0; font-size: 11px; opacity: 0.8; }
 
-        .menu-section {
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
+        .menu-section { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
         .menu-title {
             font-size: 11px;
             text-transform: uppercase;
@@ -61,13 +84,13 @@
         .menu-item {
             display: flex;
             align-items: center;
-            padding: 10px 15px;
+            padding: 12px 15px;
             color: #444;
             text-decoration: none;
             font-size: 13px;
             font-weight: 500;
             cursor: pointer;
-            transition: background 0.2s;
+            border-left: 4px solid transparent;
         }
         .menu-item:hover, .menu-item.active {
             background-color: #f0f4f8;
@@ -75,45 +98,20 @@
             border-left: 4px solid var(--primary-green);
         }
 
-        /* 📊 সাইডবারের নিচের লাইভ কাউন্টার কার্ডস (Live Stats) */
-        .live-stats-panel {
-            padding: 10px;
-            background-color: #fafafa;
-            border-top: 1px solid #e0e0e0;
-        }
-        .stat-card {
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-bottom: 6px;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .stat-card span { display: block; font-size: 16px; font-weight: 800; margin-top: 2px;}
+        /* 📊 সাইডবার লাইভ কাউন্টার প্যানেল */
+        .live-stats-panel { padding: 12px; background-color: #fafafa; border-top: 1px solid #e0e0e0; }
+        .stat-card { padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; color: white; font-size: 11px; font-weight: bold; }
+        .stat-card span { display: block; font-size: 15px; font-weight: 800; margin-top: 2px;}
         .bg-green { background-color: #2e7d32; }
         .bg-blue { background-color: #1565c0; }
         .bg-orange { background-color: #ef6c00; }
-        .bg-red { background-color: #c62828; }
 
-        .btn-logout {
-            background-color: var(--danger-red);
-            color: white;
-            border: none;
-            padding: 8px;
-            width: calc(100% - 20px);
-            margin: 10px;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        /* 💻 ডানপাশের মূল কন্টেন্ট এরিয়া (Main Dashboard Workspace) */
+        /* 💻 ডানপাশের মূল কন্টেন্ট এরিয়া (Workspace) */
         .main-workspace {
             flex: 1;
             height: 100%;
             overflow-y: auto;
-            padding: 20px;
+            padding: 25px;
             box-sizing: border-box;
             position: relative;
         }
@@ -121,113 +119,114 @@
         .dashboard-page {
             display: none;
             background: #ffffff;
-            padding: 20px;
+            padding: 25px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            max-width: 800px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            max-width: 900px;
             margin: 0 auto;
+            box-sizing: border-box;
         }
         .dashboard-page.active { display: block; }
 
-        /* 🩺 Official Printed Pad Header */
-        .pad-header {
-            text-align: center;
-            border-bottom: 2px solid var(--primary-green);
-            padding-bottom: 6px;
-            margin-bottom: 15px;
-        }
-        .logo-text-en { color: var(--danger-red); font-size: 22px; font-weight: bold; margin: 0; }
+        /* 🩺 Printed Pad Header */
+        .pad-header { text-align: center; border-bottom: 2px solid var(--primary-green); padding-bottom: 6px; margin-bottom: 20px; }
+        .logo-text-en { color: var(--danger-red); font-size: 22px; font-weight: bold; margin: 0; letter-spacing: 0.5px; }
         .logo-text-en span { color: var(--primary-green); }
         .slogan { font-size: 12px; color: #555; margin: 4px 0 0 0; font-style: italic; }
 
-        .section-title {
-            font-size: 16px;
-            color: var(--primary-blue);
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
-            margin: 20px 0 10px 0;
-            font-weight: bold;
-        }
+        .section-title { font-size: 15px; color: var(--primary-blue); border-bottom: 1px solid #ddd; padding-bottom: 4px; margin: 25px 0 15px 0; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* 📝 ফর্ম এবং ইনপুট গ্রিড */
+        /* 📝 রেস্পন্সিভ ফর্ম গ্রিড লেআউট (কম্পিউটারে চমৎকার পাশাপাশি গ্রিড দেখাবে) */
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 15px;
         }
-        .form-group { display: flex; flex-direction: column; margin-bottom: 8px; }
+        .form-group { display: flex; flex-direction: column; margin-bottom: 5px; }
         .form-group.full-width { grid-column: span 2; }
-        label { font-weight: bold; margin-bottom: 4px; color: #333; font-size: 12px; }
+        label { font-weight: bold; margin-bottom: 5px; color: #333; font-size: 12px; }
         input, select, textarea {
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 13px;
             box-sizing: border-box;
             width: 100%;
+            background-color: #fff;
         }
 
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 13px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 13px; }
         th { background-color: #f2f2f2; }
 
-        .billing-summary {
-            margin-top: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 5px;
-        }
-        .billing-box { display: flex; align-items: center; gap: 10px; }
-        .billing-box label { width: 120px; text-align: right; }
-        .billing-box input { width: 120px; text-align: right; font-weight: bold; }
+        .billing-summary { margin-top: 20px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+        .billing-box { display: flex; align-items: center; gap: 12px; }
+        .billing-box label { width: 130px; text-align: right; font-size: 13px; font-weight: bold; }
+        .billing-box input { width: 130px; text-align: right; font-weight: bold; padding: 6px; }
 
         .btn-submit {
-            background-color: var(--primary-green);
-            color: white;
-            border: none;
-            padding: 12px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
+            background-color: var(--primary-green); color: white; border: none; padding: 12px;
+            font-size: 15px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+        .btn-submit:hover { background-color: #006644; }
+        .btn-clear-all { background-color: var(--danger-red); color: white; padding: 8px 12px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-bottom: 15px; font-size: 12px; }
 
         .print-value { display: none; padding: 4px 0; font-size: 14px; border-bottom: 1px dotted #ccc; }
-        .watermark {
-            position: absolute;
-            top: 40%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 70px; font-weight: bold; color: rgba(0, 135, 90, 0.02);
-            pointer-events: none; user-select: none;
+        .watermark { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); font-size: 80px; font-weight: bold; color: rgba(0, 135, 90, 0.02); pointer-events: none; user-select: none; }
+
+        /* 📱 শুধুমাত্র মোবাইল স্ক্রিনের জন্য বিশেষ পরিবর্তন (স্লাইড মেনু চালু হবে) */
+        @media (max-width: 992px) {
+            body { flex-direction: column; }
+            .mobile-top-bar { display: flex; }
+            
+            .sidebar {
+                position: fixed;
+                top: 50px;
+                left: 0;
+                bottom: 0;
+                transform: translateX(-100%);
+                box-shadow: 3px 0 15px rgba(0,0,0,0.15);
+                transition: transform 0.3s ease;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-workspace {
+                padding: 15px;
+                margin-top: 50px;
+                height: calc(100vh - 50px);
+            }
+            .grid-2 { grid-template-columns: 1fr; gap: 10px; }
+            .form-group.full-width { grid-column: span 1; }
         }
 
-        /* 🖨️ প্রিন্ট লেআউট (শুধুমাত্র বিল কপি আসবে, সাইডবার ও বাটন গায়েব হয়ে যাবে) */
+        /* 🖨️ প্রিন্ট লেআউট (প্রিন্ট করলে দুই ডিভাইসেই একদম ক্লিন বিল কপি আসবে) */
         @media print {
             @page { size: A4; margin: 10mm 15mm 10mm 15mm; }
             body { background: #fff; overflow: visible; }
-            .sidebar { display: none !important; }
+            .sidebar, .mobile-top-bar, .no-print { display: none !important; }
             .main-workspace { padding: 0; overflow: visible; }
-            .dashboard-page { box-shadow: none; padding: 0; max-width: 100%; width: 100%; }
-            input, select, textarea, button, .btn-submit, .no-print { display: none !important; }
+            .dashboard-page { box-shadow: none; padding: 0; width: 100% !important; max-width: 100% !important; }
+            input, select, textarea, button, .btn-submit { display: none !important; }
             .print-value { display: block !important; }
-            .grid-2 { gap: 5px; }
+            .grid-2 { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+            .form-group.full-width { grid-column: span 2 !important; }
             tr.empty-row { display: none !important; }
-        }
-
-        /* 📱 মোবাইলের জন্য সাইডবার রেস্পন্সিভ অ্যাডজাস্টমেন্ট */
-        @media (max-width: 768px) {
-            body { flex-direction: column; overflow: auto; }
-            .sidebar { width: 100%; height: auto; }
-            .live-stats-panel { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 🚪 বামপাশের স্থায়ী ড্যাশবোর্ড সাইডবার মেনু -->
-    <div class="sidebar no-print">
+    <!-- 📱 মোবাইল টপ বার (কম্পিউটারে এটি স্বয়ংক্রিয়ভাবে লুকিয়ে যাবে) -->
+    <div class="mobile-top-bar no-print">
+        <button class="menu-toggle-btn" onclick="toggleSidebar()">☰ Menu</button>
+        <div style="font-size: 14px; font-weight: bold; letter-spacing: 0.5px;">DJM Hospital Panel</div>
+    </div>
+
+    <!-- 🚪 ড্যাশবোর্ড সাইডবার (কম্পিউটারে স্থায়ী থাকবে, মোবাইলে টগল হবে) -->
+    <div class="sidebar no-print" id="sidebarMenu">
         <div>
             <div class="sidebar-brand">
                 <h3>DR. JASIM MUKUL</h3>
@@ -242,34 +241,3 @@
 
             <div class="menu-section">
                 <div class="menu-title">Diagnostic & Lab</div>
-                <div class="menu-item" onclick="loadPage('reportPage', this)">🔬 Medical Report</div>
-            </div>
-        </div>
-
-        <!-- 📊 সাইডবারের নিচের লাইভ কাউন্টার ইনফো প্যানেল -->
-        <div>
-            <div class="live-stats-panel">
-                <div class="menu-title" style="padding: 0 5px 5px 0;">Today's Live Counter</div>
-                <div class="stat-card bg-green">Total Patients <span id="statPatients">0</span></div>
-                <div class="stat-card bg-blue">Total Collection <span id="statCollection">0.00 TK</span></div>
-                <div class="stat-card bg-orange">Total Due <span id="statDue">0.00 TK</span></div>
-            </div>
-            <button class="btn-logout" onclick="alert('Logged out successfully.')">Logout System</button>
-        </div>
-    </div>
-
-    <!-- 💻 ডানপাশের মূল কন্টেন্ট এরিয়া (Workspace) -->
-    <div class="main-workspace">
-        <div class="watermark">DJMH</div>
-
-        <!-- ================= মডিউল ১: পেশেন্ট এন্ট্রি ও বিলিং ফর্ম ================= -->
-        <div id="billingPage" class="dashboard-page active">
-            <div class="pad-header">
-                <h1 class="logo-text-en">DR. JASIM MUKUL HOSPITAL <span>& DIAGNOSTIC</span></h1>
-                <p class="slogan">"Modern Medical Services for Everyone"</p>
-            </div>
-
-            <div class="section-title">Patient Information</div>
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>Patient Name:</label>
