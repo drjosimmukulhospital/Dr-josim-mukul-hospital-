@@ -9,91 +9,82 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f6;
             margin: 0;
-            padding: 20px;
+            padding: 8px;
         }
         .container {
-            max-width: 800px;
+            max-width: 100%;
             background: #ffffff;
             margin: 0 auto;
-            padding: 30px;
+            padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: relative;
-            min-height: 950px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            box-sizing: border-box;
         }
-        /* 🩺 Official Hospital Pad Header */
+        /* 🩺 Official Pad Header */
         .pad-header {
             text-align: center;
             border-bottom: 2px solid #00875a;
-            padding-bottom: 12px;
-            margin-bottom: 25px;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
         }
         .logo-text-en {
             color: #cc0000;
-            font-size: 26px;
+            font-size: 20px;
             font-weight: bold;
             margin: 0;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
         .logo-text-en span {
             color: #00875a;
         }
         .slogan {
-            font-size: 14px;
+            font-size: 11px;
             color: #555;
-            margin: 6px 0 0 0;
+            margin: 3px 0 0 0;
             font-style: italic;
-            font-weight: 500;
         }
         /* 📜 Background Watermark */
         .watermark {
             position: absolute;
-            top: 50%;
+            top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 90px;
+            font-size: 70px;
             font-weight: bold;
-            color: rgba(0, 135, 90, 0.04);
+            color: rgba(0, 135, 90, 0.03);
             font-family: Arial, sans-serif;
-            letter-spacing: 5px;
             pointer-events: none;
             user-select: none;
             text-align: center;
-            border: 10px double rgba(0, 135, 90, 0.04);
-            padding: 20px;
+            border: 6px double rgba(0, 135, 90, 0.03);
+            padding: 10px;
             border-radius: 50%;
         }
         .receipt-title {
             text-align: center;
-            font-size: 15px;
+            font-size: 12px;
             font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: 25px;
+            margin-bottom: 12px;
             color: #333;
             border: 1px solid #333;
-            width: 150px;
+            width: 120px;
             margin-left: auto;
             margin-right: auto;
-            padding: 5px;
+            padding: 3px;
             border-radius: 4px;
             background-color: #f9f9f9;
             text-transform: uppercase;
         }
-        .main-content {
-            flex-grow: 1;
-        }
         .patient-info {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 10px;
             background: #f9f9f9;
-            padding: 15px;
+            padding: 10px;
             border-radius: 6px;
             border: 1px solid #e0e0e0;
-            margin-bottom: 25px;
+            margin-bottom: 12px;
         }
         .form-group {
             display: flex;
@@ -104,50 +95,52 @@
         }
         label {
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             color: #333;
-            font-size: 13px;
+            font-size: 12px;
         }
         input, textarea, select {
-            padding: 10px;
+            padding: 6px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 13px;
+            box-sizing: border-box;
+            background-color: #fff;
         }
         .print-value {
             display: none;
-            padding: 5px 0;
-            font-size: 15px;
+            padding: 3px 0;
+            font-size: 13px;
             border-bottom: 1px dotted #ccc;
         }
         .test-section h3 {
             border-bottom: 2px solid #00875a;
-            padding-bottom: 5px;
+            padding-bottom: 3px;
             color: #00875a;
-            font-size: 15px;
+            font-size: 13px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            margin: 8px 0;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 5px;
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 6px;
             text-align: left;
-            font-size: 14px;
+            font-size: 12px;
         }
         th {
             background-color: #f2f2f2;
         }
         .billing-summary {
-            margin-top: 25px;
+            margin-top: 12px;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            gap: 8px;
+            gap: 5px;
         }
         .billing-box {
             display: flex;
@@ -155,47 +148,59 @@
             gap: 10px;
         }
         .billing-box label {
-            width: 150px;
+            width: 110px;
             text-align: right;
-            font-size: 14px;
+            font-size: 12px;
         }
         .billing-box input {
-            width: 150px;
+            width: 110px;
             text-align: right;
             font-weight: bold;
+            padding: 5px;
         }
         .btn-container {
-            margin-top: 25px;
+            margin-top: 15px;
             text-align: right;
         }
         button {
             background-color: #00875a;
             color: white;
             border: none;
-            padding: 12px 25px;
-            font-size: 15px;
+            padding: 10px 18px;
+            font-size: 13px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
+            width: 100%;
+        }
+        .btn-add {
+            width: auto;
+            padding: 4px 8px;
+            font-size: 11px;
+            margin-top: 5px;
+            background-color: #555;
         }
         button:hover {
             background-color: #006644;
         }
-        /* 🗺️ Official Pad Footer Style */
+        /* 🗺️ Official Pad Footer */
         .pad-footer {
             background-color: #1a4d80;
             color: white;
             text-align: center;
-            padding: 12px;
-            font-size: 14px;
+            padding: 8px;
+            font-size: 11px;
             border-radius: 4px;
-            margin-top: 30px;
-            line-height: 1.6;
-            letter-spacing: 0.5px;
+            margin-top: 20px;
+            line-height: 1.4;
         }
 
-        /* 🖨️ CSS Media Query for Professional Printing */
+        /* 🖨️ CSS Media Query for perfect Print */
         @media print {
+            @page {
+                size: A4;
+                margin: 10mm 15mm 10mm 15mm;
+            }
             body {
                 background-color: #fff;
                 padding: 0;
@@ -203,9 +208,9 @@
             }
             .container {
                 box-shadow: none;
-                padding: 10px;
+                padding: 0;
                 max-width: 100%;
-                min-height: 98vh;
+                width: 100%;
             }
             input, textarea, select, button, .btn-container {
                 display: none !important;
@@ -217,7 +222,8 @@
                 background: none !important;
                 border: none !important;
                 padding: 0 !important;
-                margin-bottom: 20px;
+                margin-bottom: 12px;
+                gap: 6px;
             }
             th {
                 background-color: #f2f2f2 !important;
@@ -229,6 +235,7 @@
                 color: #fff !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
+                margin-top: 40px;
             }
             tr.empty-row {
                 display: none !important;
@@ -255,12 +262,12 @@
         <div class="patient-info">
             <div class="form-group">
                 <label>Patient Name:</label>
-                <input type="text" id="patientName" placeholder="Enter patient name">
+                <input type="text" id="patientName" placeholder="Patient name">
                 <div id="pNamePrint" class="print-value">-</div>
             </div>
             <div class="form-group">
                 <label>Age:</label>
-                <input type="text" id="patientAge" placeholder="Enter age">
+                <input type="text" id="patientAge" placeholder="Age">
                 <div id="pAgePrint" class="print-value">-</div>
             </div>
             <div class="form-group">
@@ -279,7 +286,7 @@
             </div>
             <div class="form-group full-width">
                 <label>Address:</label>
-                <textarea id="patientAddress" rows="1" placeholder="Enter address"></textarea>
+                <textarea id="patientAddress" rows="1" placeholder="Address"></textarea>
                 <div id="pAddressPrint" class="print-value">-</div>
             </div>
         </div>
@@ -290,16 +297,16 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 10%;">SL No.</th>
-                        <th style="width: 65%;">Test Description</th>
-                        <th style="width: 25%; text-align: right;">Price (TK)</th>
+                        <th style="width: 12%;">SL No.</th>
+                        <th style="width: 60%;">Test Description</th>
+                        <th style="width: 28%; text-align: right;">Price (TK)</th>
                     </tr>
                 </thead>
                 <tbody id="testTableBody">
                     <tr>
                         <td>1</td>
                         <td>
-                            <input type="text" style="width:95%;" class="test-name" placeholder="e.g. CBC, Lipid Profile">
+                            <input type="text" style="width:95%;" class="test-name" placeholder="e.g. CBC, RBS">
                             <div class="print-value test-name-print"></div>
                         </td>
                         <td>
@@ -310,4 +317,3 @@
                     <tr>
                         <td>2</td>
                         <td>
-                            <input type="text" style="width:95%;" class="test-name" placeholder="">
