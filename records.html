@@ -1,0 +1,157 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Billing Records - Dr. Jasim Mukul Hospital</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 15px;
+        }
+        .container {
+            max-width: 850px;
+            background: #ffffff;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #00875a;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #1a4d80;
+            margin: 0;
+            font-size: 20px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+        .btn {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-back {
+            background-color: #00875a;
+            color: white;
+        }
+        .btn-clear {
+            background-color: #cc0000;
+            color: white;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
+        }
+        th {
+            background-color: #1a4d80;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .no-data {
+            text-align: center;
+            color: #888;
+            padding: 30px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-area">
+        <h2>📂 Saved Patient Billing History</h2>
+        <div class="btn-group">
+            <a href="index.html" class="btn btn-back">📝 Create New Bill</a>
+            <button class="btn btn-clear" onclick="clearRecords()">🗑️ Delete All History</button>
+        </div>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Patient Name</th>
+                    <th>Age/Gender</th>
+                    <th>Address</th>
+                    <th style="text-align: right;">Advance Paid (TK)</th>
+                    <th style="text-align: right;">Due Amount (TK)</th>
+                </tr>
+            </thead>
+            <tbody id="recordsTableBody">
+                <!-- জমানো ডাটা এখানে আসবে -->
+            </tbody>
+        </table>
+    </div>
+    <div id="noDataMessage" class="no-data" style="display: none;">No saved billing records found.</div>
+</div>
+
+<script>
+    // LocalStorage থেকে ডাটা লোড করার ফাংশন
+    function loadRecords() {
+        let tableBody = document.getElementById('recordsTableBody');
+        let noDataMsg = document.getElementById('noDataMessage');
+        let records = JSON.parse(localStorage.getItem('hospital_records')) || [];
+
+        tableBody.innerHTML = '';
+
+        if (records.length === 0) {
+            noDataMsg.style.display = 'block';
+            return;
+        }
+
+        noDataMsg.style.display = 'none';
+
+        // নতুন ডাটা যেন তালিকার উপরে দেখায়
+        for (let i = records.length - 1; i >= 0; i--) {
+            let rec = records[i];
+            let row = tableBody.insertRow(-1);
+            row.innerHTML = `
+                <td>${rec.date}</td>
+                <td><strong>${rec.name}</strong></td>
+                <td>${rec.age} / ${rec.gender}</td>
+                <td>${rec.address}</td>
+                <td style="text-align: right; font-weight: bold; color: #00875a;">${parseFloat(rec.advance || 0).toFixed(2)} TK</td>
+                <td style="text-align: right; font-weight: bold; color: #cc0000;">${parseFloat(rec.due || 0).toFixed(2)} TK</td>
+            `;
+        }
+    }
+
+    function clearRecords() {
+        if(confirm("Are you sure you want to permanently delete all saved history?")) {
+            localStorage.removeItem('hospital_records');
+            loadRecords();
+        }
+    }
+
+    // পেজ ওপেন হলেই ডাটা দেখাবে
+    window.onload = loadRecords;
+</script>
+
+</body>
+</html>
