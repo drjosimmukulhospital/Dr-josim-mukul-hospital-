@@ -5,7 +5,7 @@ import pandas as pd
 def show_admission_page(c, conn, current_date):
     st.markdown("<h2 style='color:#1E3A8A;'>🏥 Indoor Patient Admission & Release Management</h2>", unsafe_allow_html=True)
     
-    tab1, tab2 = st.tabs(["🛌 Admit New Patient (রোগী ভর্তি)", "🚪 Discharge/Release Patient (রোগী রিলিজ)"])
+    tab1, tab2 = st.tabs(["🛌 Admit New Patient", "🚪 Discharge/Release Patient"])
     
     with tab1:
         st.subheader("Patient Admission Form")
@@ -27,6 +27,7 @@ def show_admission_page(c, conn, current_date):
                 ''', (adm_name, adm_age, adm_gender, adm_phone, bed_no, doc_charge, current_date))
                 conn.commit()
                 st.success(f"🎉 Patient {adm_name} successfully admitted to Cabin/Bed {bed_no}!")
+                st.rerun()
             else:
                 st.error("⚠️ Please fill all required (*) fields.")
                 
@@ -41,7 +42,6 @@ def show_admission_page(c, conn, current_date):
             st.subheader("Process Discharge & Billing")
             p_id = st.number_input("Enter Patient ID to Release:", min_value=1, step=1)
             
-            # Fetch chosen patient details
             p_details = pd.read_sql_query(f"SELECT * FROM admissions WHERE id={p_id} AND status='ADMITTED'", conn)
             if not p_details.empty:
                 st.info(f"📋 Releasing Patient: {p_details['p_name'].values[0]} | Cabin: {p_details['bed_no'].values[0]}")
@@ -52,7 +52,7 @@ def show_admission_page(c, conn, current_date):
                 with col4:
                     paid_at_release = st.number_input("Amount Received (TK):", min_value=0.0)
                     
-                if st.button("Approve Release & Print Discharge Bill"):
+                if st.button("Approve Release"):
                     c.execute(f'''
                         UPDATE admissions 
                         SET status='RELEASED', discharge_date='{current_date}', 
@@ -66,4 +66,3 @@ def show_admission_page(c, conn, current_date):
                 st.warning("No active admitted patient found with this ID.")
         else:
             st.info("🛌 No patients are currently admitted in cabins or wards.")
-                  
