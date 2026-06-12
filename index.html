@@ -3,148 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dr. Jasim Mukul Hospital - Advanced Dashboard</title>
+    <title>Dr. Jasim Mukul Hospital & Diagnostic</title>
     <style>
-        :root {
-            --primary-blue: #1a4d80;
-            --primary-green: #00875a;
-            --danger-red: #cc0000;
-            --bg-light: #f4f7f6;
-            --sidebar-width: 260px;
-        }
-
+        /* 📱 ল্যাপটপ এবং মোবাইলে হুবহু একই রকম সহজ স্ক্রোলিং লেআউট */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
             margin: 0;
-            padding: 0;
-            background-color: var(--bg-light);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
+            padding: 15px;
         }
-
-        /* 📱 মোবাইল ফ্রেন্ডলি টপ বার (কম্পিউটারে এটি লুকানো থাকবে) */
-        .mobile-top-bar {
-            display: none;
-            background-color: var(--primary-blue);
-            color: white;
-            padding: 12px 15px;
-            align-items: center;
-            justify-content: space-between;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .menu-toggle-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 0;
-            width: auto;
-        }
-
-        /* 🚪 বামপাশের সাইডবার (কম্পিউটারে এটি স্থায়ী ও বড় থাকবে) */
-        .sidebar {
-            width: var(--sidebar-width);
-            background-color: #ffffff;
-            border-right: 1px solid #e0e0e0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
+        .container {
+            max-width: 750px;
+            background: #ffffff;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
             box-sizing: border-box;
-            overflow-y: auto;
-            z-index: 999;
-            flex-shrink: 0;
         }
-
-        .sidebar-brand {
-            padding: 20px 15px;
-            background-color: var(--primary-blue);
-            color: #ffffff;
+        /* 🩺 Official Printed Pad Header */
+        .pad-header {
             text-align: center;
+            border-bottom: 2px solid #00875a;
+            padding-bottom: 6px;
+            margin-bottom: 15px;
         }
-        .sidebar-brand h3 { margin: 0; font-size: 16px; font-weight: bold; }
-        .sidebar-brand p { margin: 4px 0 0 0; font-size: 11px; opacity: 0.8; }
-
-        .menu-section { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
-        .menu-title {
-            font-size: 11px;
-            text-transform: uppercase;
-            color: #888;
-            padding: 5px 15px;
+        .logo-text-en {
+            color: #cc0000;
+            font-size: 22px;
             font-weight: bold;
+            margin: 0;
             letter-spacing: 0.5px;
         }
-        .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            color: #444;
-            text-decoration: none;
+        .logo-text-en span { color: #00875a; }
+        .slogan {
+            font-size: 12px;
+            color: #555;
+            margin: 4px 0 0 0;
+            font-style: italic;
+        }
+        .receipt-title {
+            text-align: center;
             font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            border-left: 4px solid transparent;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            border: 1px solid #333;
+            width: 130px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 4px;
+            border-radius: 4px;
+            text-transform: uppercase;
         }
-        .menu-item:hover, .menu-item.active {
-            background-color: #f0f4f8;
-            color: var(--primary-blue);
-            border-left: 4px solid var(--primary-green);
-        }
-
-        /* 📊 সাইডবার লাইভ কাউন্টার প্যানেল */
-        .live-stats-panel { padding: 12px; background-color: #fafafa; border-top: 1px solid #e0e0e0; }
-        .stat-card { padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; color: white; font-size: 11px; font-weight: bold; }
-        .stat-card span { display: block; font-size: 15px; font-weight: 800; margin-top: 2px;}
-        .bg-green { background-color: #2e7d32; }
-        .bg-blue { background-color: #1565c0; }
-        .bg-orange { background-color: #ef6c00; }
-
-        /* 💻 ডানপাশের মূল কন্টেন্ট এরিয়া (Workspace) */
-        .main-workspace {
-            flex: 1;
-            height: 100%;
-            overflow-y: auto;
-            padding: 25px;
-            box-sizing: border-box;
-            position: relative;
-        }
-
-        .dashboard-page {
-            display: none;
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            max-width: 900px;
-            margin: 0 auto;
-            box-sizing: border-box;
-        }
-        .dashboard-page.active { display: block; }
-
-        /* 🩺 Printed Pad Header */
-        .pad-header { text-align: center; border-bottom: 2px solid var(--primary-green); padding-bottom: 6px; margin-bottom: 20px; }
-        .logo-text-en { color: var(--danger-red); font-size: 22px; font-weight: bold; margin: 0; letter-spacing: 0.5px; }
-        .logo-text-en span { color: var(--primary-green); }
-        .slogan { font-size: 12px; color: #555; margin: 4px 0 0 0; font-style: italic; }
-
-        .section-title { font-size: 15px; color: var(--primary-blue); border-bottom: 1px solid #ddd; padding-bottom: 4px; margin: 25px 0 15px 0; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        /* 📝 রেস্পন্সিভ ফর্ম গ্রিড লেআউট (কম্পিউটারে চমৎকার পাশাপাশি গ্রিড দেখাবে) */
-        .grid-2 {
+        /* 📝 সবার জন্য সহজ সোজা ফর্ম */
+        .patient-info {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 12px;
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 15px;
         }
-        .form-group { display: flex; flex-direction: column; margin-bottom: 5px; }
+        .form-group { display: flex; flex-direction: column; }
         .form-group.full-width { grid-column: span 2; }
-        label { font-weight: bold; margin-bottom: 5px; color: #333; font-size: 12px; }
+        label { font-weight: bold; margin-bottom: 4px; color: #333; font-size: 12px; }
         input, select, textarea {
             padding: 10px;
             border: 1px solid #ccc;
@@ -154,90 +80,159 @@
             width: 100%;
             background-color: #fff;
         }
-
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .print-value { display: none; padding: 4px 0; font-size: 14px; border-bottom: 1px dotted #ccc; }
+        .section-title { font-size: 14px; color: #1a4d80; border-bottom: 1px solid #ddd; padding-bottom: 4px; margin: 20px 0 10px 0; font-weight: bold; text-transform: uppercase; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 5px; }
         th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 13px; }
         th { background-color: #f2f2f2; }
 
-        .billing-summary { margin-top: 20px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-        .billing-box { display: flex; align-items: center; gap: 12px; }
-        .billing-box label { width: 130px; text-align: right; font-size: 13px; font-weight: bold; }
-        .billing-box input { width: 130px; text-align: right; font-weight: bold; padding: 6px; }
+        .billing-summary { margin-top: 15px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+        .billing-box { display: flex; align-items: center; gap: 10px; }
+        .billing-box label { width: 120px; text-align: right; font-size: 13px; }
+        .billing-box input { width: 120px; text-align: right; font-weight: bold; }
 
         .btn-submit {
-            background-color: var(--primary-green); color: white; border: none; padding: 12px;
-            font-size: 15px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: #00875a; color: white; border: none; padding: 12px;
+            font-size: 15px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 15px;
         }
-        .btn-submit:hover { background-color: #006644; }
-        .btn-clear-all { background-color: var(--danger-red); color: white; padding: 8px 12px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-bottom: 15px; font-size: 12px; }
-
-        .print-value { display: none; padding: 4px 0; font-size: 14px; border-bottom: 1px dotted #ccc; }
+        .btn-add { background-color: #555; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; margin-top: 5px;}
+        .pad-footer { background-color: #1a4d80; color: white; text-align: center; padding: 10px; font-size: 12px; border-radius: 4px; margin-top: 25px; }
         .watermark { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); font-size: 80px; font-weight: bold; color: rgba(0, 135, 90, 0.02); pointer-events: none; user-select: none; }
 
-        /* 📱 শুধুমাত্র মোবাইল স্ক্রিনের জন্য বিশেষ পরিবর্তন (স্লাইড মেনু চালু হবে) */
-        @media (max-width: 992px) {
-            body { flex-direction: column; }
-            .mobile-top-bar { display: flex; }
-            
-            .sidebar {
-                position: fixed;
-                top: 50px;
-                left: 0;
-                bottom: 0;
-                transform: translateX(-100%);
-                box-shadow: 3px 0 15px rgba(0,0,0,0.15);
-                transition: transform 0.3s ease;
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .main-workspace {
-                padding: 15px;
-                margin-top: 50px;
-                height: calc(100vh - 50px);
-            }
-            .grid-2 { grid-template-columns: 1fr; gap: 10px; }
+        /* 📱 মোবাইলের জন্য ফর্ম এক কলামে সোজা হয়ে যাবে */
+        @media (max-width: 600px) {
+            .patient-info { grid-template-columns: 1fr; }
             .form-group.full-width { grid-column: span 1; }
         }
 
-        /* 🖨️ প্রিন্ট লেআউট (প্রিন্ট করলে দুই ডিভাইসেই একদম ক্লিন বিল কপি আসবে) */
+        /* 🖨️ প্রিন্ট লেআউট (প্রিন্ট করলে শুধু রিসিট আসবে, বাটন বা খালি ঘর আসবে না) */
         @media print {
             @page { size: A4; margin: 10mm 15mm 10mm 15mm; }
-            body { background: #fff; overflow: visible; }
-            .sidebar, .mobile-top-bar, .no-print { display: none !important; }
-            .main-workspace { padding: 0; overflow: visible; }
-            .dashboard-page { box-shadow: none; padding: 0; width: 100% !important; max-width: 100% !important; }
-            input, select, textarea, button, .btn-submit { display: none !important; }
+            body { background: #fff; padding: 0; margin: 0; }
+            .container { box-shadow: none; padding: 0; width: 100%; }
+            input, select, textarea, button, .btn-add, .btn-submit { display: none !important; }
             .print-value { display: block !important; }
+            .patient-info { background: none !important; border: none !important; padding: 0 !important; gap: 6px; }
             .grid-2 { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
-            .form-group.full-width { grid-column: span 2 !important; }
+            th { background-color: #f2f2f2 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             tr.empty-row { display: none !important; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 📱 মোবাইল টপ বার (কম্পিউটারে এটি স্বয়ংক্রিয়ভাবে লুকিয়ে যাবে) -->
-    <div class="mobile-top-bar no-print">
-        <button class="menu-toggle-btn" onclick="toggleSidebar()">☰ Menu</button>
-        <div style="font-size: 14px; font-weight: bold; letter-spacing: 0.5px;">DJM Hospital Panel</div>
+<div class="container">
+    <div class="watermark">DJMH</div>
+
+    <!-- Hospital Pad Header -->
+    <div class="pad-header">
+        <h1 class="logo-text-en">DR. JASIM MUKUL HOSPITAL <span>& DIAGNOSTIC</span></h1>
+        <p class="slogan">"Modern Medical Services for Everyone"</p>
     </div>
 
-    <!-- 🚪 ড্যাশবোর্ড সাইডবার (কম্পিউটারে স্থায়ী থাকবে, মোবাইলে টগল হবে) -->
-    <div class="sidebar no-print" id="sidebarMenu">
-        <div>
-            <div class="sidebar-brand">
-                <h3>DR. JASIM MUKUL</h3>
-                <p>Hospital & Lab Management</p>
-            </div>
-            
-            <div class="menu-section">
-                <div class="menu-title">Main Desk</div>
-                <div class="menu-item active" onclick="loadPage('billingPage', this)">📝 Patient Entry & Bill</div>
-                <div class="menu-item" onclick="loadPage('historyPage', this)">📂 History Copy</div>
-            </div>
+    <div class="receipt-title">Money Receipt</div>
 
-            <div class="menu-section">
-                <div class="menu-title">Diagnostic & Lab</div>
+    <!-- Patient Information Form -->
+    <div class="section-title">Patient Information</div>
+    <div class="patient-info">
+        <div class="form-group">
+            <label>Patient Name:</label>
+            <input type="text" id="patientName" placeholder="Enter patient name">
+            <div id="pNamePrint" class="print-value">-</div>
+        </div>
+        <div class="form-group">
+            <label>Age:</label>
+            <input type="text" id="patientAge" placeholder="Age">
+            <div id="pAgePrint" class="print-value">-</div>
+        </div>
+        <div class="form-group">
+            <label>Gender:</label>
+            <select id="patientGender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+            <div id="pGenderPrint" class="print-value">-</div>
+        </div>
+        <div class="form-group">
+            <label>Date:</label>
+            <input type="date" id="visitDate">
+            <div id="pDatePrint" class="print-value">-</div>
+        </div>
+        <div class="form-group full-width">
+            <label>Address:</label>
+            <textarea id="patientAddress" rows="1" placeholder="Address"></textarea>
+            <div id="pAddressPrint" class="print-value">-</div>
+        </div>
+    </div>
+
+    <!-- Test List Table -->
+    <div class="section-title">Test Details</div>
+    <table id="billingTable">
+        <thead>
+            <tr>
+                <th style="width: 12%;">SL</th>
+                <th style="width: 60%;">Test Description</th>
+                <th style="width: 28%; text-align: right;">Price (TK)</th>
+            </tr>
+        </thead>
+        <tbody id="testTableBody">
+            <tr>
+                <td>1</td>
+                <td>
+                    <input type="text" style="width:95%;" class="test-name" placeholder="e.g. CBC, RBS">
+                    <div class="print-value test-name-print"></div>
+                </td>
+                <td>
+                    <input type="number" class="test-price" style="width:90%; text-align: right;" placeholder="0.00" oninput="calculateTotal()">
+                    <div class="print-value test-price-print" style="text-align: right;"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="button" class="btn-add" onclick="addTableRow()">+ Add More Test</button>
+
+    <!-- Total Billing Area -->
+    <div class="billing-summary">
+        <div class="billing-box">
+            <label>Total Price:</label>
+            <input type="number" id="totalPrice" readonly value="0">
+            <div id="totalPricePrint" class="print-value">0.00 TK</div>
+        </div>
+        <div class="billing-box">
+            <label>Discount (TK):</label>
+            <input type="number" id="discount" value="0" oninput="calculateTotal()">
+            <div id="discountPrint" class="print-value">0.00 TK</div>
+        </div>
+        <div class="billing-box">
+            <label>Advance Paid (TK):</label>
+            <input type="number" id="advancePaid" value="0" oninput="calculateTotal()">
+            <div id="advancePrint" class="print-value">0.00 TK</div>
+        </div>
+        <div class="billing-box">
+            <label>Due Amount:</label>
+            <input type="number" id="dueAmount" readonly value="0" style="color: #cc0000;">
+            <div id="duePrint" class="print-value" style="font-weight: bold; color: #cc0000;">0.00 TK</div>
+        </div>
+        <div class="billing-box">
+            <label>Net Paid:</label>
+            <input type="number" id="netPaid" readonly value="0" style="background-color: #eafaf1; color: #00875a;">
+            <div id="netPaidPrint" class="print-value" style="font-weight: bold; color: #00875a;">0.00 TK</div>
+        </div>
+    </div>
+
+    <!-- Final Print Action Button -->
+    <button class="btn-submit" onclick="prepareAndPrint()">Print Money Receipt</button>
+
+    <!-- Official Pad Footer -->
+    <div class="pad-footer">
+        VIP Road, Galachipa, Patuakhali. Phone: 01312-049981
+    </div>
+</div>
+
+<script>
+    // আজকের তারিখ অটোমেটিক সেট করা
+    document.getElementById('visitDate').valueAsDate = new Date();
+
+    function calculateTotal() {
