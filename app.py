@@ -3,138 +3,159 @@ import pandas as pd
 import sqlite3
 from datetime import datetime
 
-# ১. ডাটাবেজ সেটআপ (যা বছরের পর বছর হিসাব ধরে রাখবে)
-conn = sqlite3.connect('hospital_management.db', check_same_thread=False)
+# 1. Database Configuration (SQLite for lifetime data storage)
+conn = sqlite3.connect('hospital_management_v2.db', check_same_thread=False)
 c = conn.cursor()
 
-# টেবিল তৈরি (যদি আগে থেকে না থাকে)
+# Create Tables if they don't exist
 c.execute('''
     CREATE TABLE IF NOT EXISTS billing (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         patient_name TEXT,
         age INTEGER,
+        gender TEXT,
         phone TEXT,
         referred_by TEXT,
         test_names TEXT,
         total_bill REAL,
         discount REAL,
-        paid REAL,
-        due REAL,
+        paid_amount REAL,
+        due_amount REAL,
         date TEXT,
+        month TEXT,
         year TEXT
     )
 ''')
 conn.commit()
 
-# পেজ কনফিগারেশন ও ডিজাইন
-st.set_page_config(page_title="ডাঃ জসিম মুকুল হসপিটাল", layout="wide")
+# Page Configurations
+st.set_page_config(page_title="Dr. Jashim Mukul Hospital", layout="wide")
 
-# সিএসএস দিয়ে ডিজাইন সুন্দর করা
+# Custom CSS for Clean Professional UI
 st.markdown("""
     <style>
-    .main-title { font-size: 26px; font-weight: bold; color: #1E3A8A; text-align: center; margin-bottom: 20px; }
-    .sidebar-title { font-size: 18px; font-weight: bold; color: #10B981; }
+    .main-title { font-size: 28px; font-weight: bold; color: #1E3A8A; text-align: center; margin-bottom: 25px; }
+    .sidebar-title { font-size: 20px; font-weight: bold; color: #059669; }
+    .metric-box { background-color: #F3F4F6; padding: 15px; rounded-top: 5px; }
     </style>
 """, unsafe_allow_html=True)
 
-# --- সাইডবার বা বাম পাশের মেনু ---
-st.sidebar.markdown("<h2 class='sidebar-title'>ডাঃ জসিম মুকুল হসপিটাল</h2>", unsafe_allow_html=True)
-st.sidebar.info(f"📅 তারিখ: {datetime.now().strftime('%d %B, %Y')}")
+# Current Date & Time Context
+current_date = datetime.now().strftime('%Y-%m-%d')
+current_month = datetime.now().strftime('%B')
+current_year = datetime.now().strftime('%Y')
+
+# --- SIDEBAR MENU ---
+st.sidebar.markdown("<h2 class='sidebar-title'>Dr. Jashim Mukul Hospital</h2>", unsafe_allow_html=True)
+st.sidebar.markdown(f"📅 **Date:** {datetime.now().strftime('%d-%b-%Y')}")
+st.sidebar.write("---")
 
 menu = [
-    "📝 Patient Entry & Billing", 
-    "💰 Money Receipt & Reports", 
-    "🔍 Due Collection", 
-    "📊 Yearly Archive (আজীবন হিসাব)"
+    "📝 Patient Registration & Billing", 
+    "🔍 Due Clearance & Invoice Search", 
+    "📊 Financial Dashboard & Lifetime Archive"
 ]
-choice = st.sidebar.radio("প্রধান কার্যভার (Main)", menu)
+choice = st.sidebar.radio("Navigation Menu", menu)
 
-# আজকের লাইভ হিসাবের সংক্ষিপ্ত রূপ সাইডবারে দেখানো
-current_year = datetime.now().strftime('%Y')
-current_date = datetime.now().strftime('%Y-%m-%d')
-
+# Live Daily Statistics in Sidebar
 df_today = pd.read_sql_query(f"SELECT * FROM billing WHERE date='{current_date}'", conn)
-today_total = df_today['paid'].sum() if not df_today.empty else 0
-today_due = df_today['due'].sum() if not df_today.empty else 0
+today_revenue = df_today['paid_amount'].sum() if not df_today.empty else 0.0
+today_due = df_today['due_amount'].sum() if not df_today.empty else 0.0
 
-st.sidebar.markdown("---")
-st.sidebar.markdown("### 📊 আজকের লাইভ হিসাব")
-st.sidebar.metric("মোট কালেকশন (টাকা)", f"{today_total} ৳")
-st.sidebar.metric("মোট বাকি (Due)", f"{today_due} ৳")
+st.sidebar.write("---")
+st.sidebar.markdown("### 📊 Today's Live Overview")
+st.sidebar.metric("Total Collection Today", f"${today_revenue:,.2f}" if today_revenue > 0 else "0.00 TK")
+st.sidebar.metric("Total Due Today", f"${today_due:,.2f}" if today_due > 0 else "0.00 TK")
 
-# --- মূল সেকশন (ডান পাশ) ---
+# --- MAIN CONTENT AREA ---
 
-# ১ নম্বর মডিউল: পেশেন্ট এন্ট্রি ও বিলিং
-if choice == "📝 Patient Entry & Billing":
-    st.markdown("<h1 class='main-title'>📝 টেস্ট এবং বিলিং সেকশন</h1>", unsafe_allow_html=True)
+# MODULE 1: Patient Entry & Billing
+if choice == "📝 Patient Registration & Billing":
+    st.markdown("<h1 class='main-title'>📝 Patient Registration & Lab Billing</h1>", unsafe_allow_html=True)
     
-    st.subheader("পেশেন্ট ইনফরমেশন")
-    col1, col2 = st.columns(2)
+    st.subheader("1. Patient Personal Information")
+    col1, col2, col3 = st.columns(3)
     with col1:
-        p_name = st.text_input("পেশেন্টের নাম (Name of the PT) *")
-        p_phone = st.text_input("মোবাইল নম্বর (Phone) *")
+        p_name = st.text_input("Patient Full Name *").upper()
+        p_phone = st.text_input("Mobile / Phone Number *")
     with col2:
-        p_age = st.number_input("বয়স (Age)", min_value=1, max_value=120, value=25)
-        referred_by = st.selectbox("ডাক্তার সিলেক্ট করুন (Refd By)", ["ডাঃ সাইদুল ইসলাম", "ডাঃ জসিম মুকুল", "অন্যান্য"])
+        p_age = st.number_input("Age (Years)", min_value=1, max_value=120, value=30)
+    with col3:
+        p_gender = st.selectbox("Gender", ["Male", "Female", "Other"])
+        referred_by = st.text_input("Referred By (Doctor Name)").upper()
+        if not referred_by: referred_by = "SELF"
         
     st.write("---")
-    st.subheader("টেস্ট সিলেকশন ও লাইভ রেট এন্ট্রি")
-    tests = st.multiselect("তালিকা থেকে টেস্ট সিলেক্ট করুন:", ["CBC (400 ৳)", "RBS (150 ৳)", "Lipid Profile (1000 ৳)", "Ultrasonography (800 ৳)", "X-Ray (500 ৳)"])
+    st.subheader("2. Investigation / Test Selection")
     
-    # টেস্টের মূল্য নির্ধারণ
-    test_rates = {"CBC (400 ৳)": 400, "RBS (150 ৳)": 150, "Lipid Profile (1000 ৳)": 1000, "Ultrasonography (800 ৳)": 800, "X-Ray (500 ৳)": 500}
-    subtotal = sum([test_rates[t] for t in tests])
+    # Pre-defined test catalog with pricing structure
+    test_catalog = {
+        "CBC (Complete Blood Count)": 400.0,
+        "RBS (Random Blood Sugar)": 150.0,
+        "Lipid Profile": 1000.0,
+        "Ultrasonography (USG)": 800.0,
+        "X-Ray Chest Chest PA View": 500.0,
+        "Serum Creatinine": 350.0,
+        "HBsAg": 400.0
+    }
     
-    st.info(f"📋 সাইট রেট বিল (টোটাল টেস্ট ফি): {subtotal} টাকা")
+    selected_tests = st.multiselect("Select Requested Tests:", list(test_catalog.keys()))
+    
+    # Calculate Dynamic Subtotal
+    subtotal = sum([test_catalog[test] for test in selected_tests])
+    st.info(f"📋 **Total Test Fee (Subtotal):** {subtotal:,.2f} TK")
     
     st.write("---")
-    st.subheader("পেমেন্ট ও ডিসকাউন্ট")
-    col3, col4 = col3, col4 = st.columns(2)
-    with col3:
-        discount = st.number_input("ডিসকাউন্ট প্রদেয় (টাকা)", min_value=0.0, value=0.0)
-        advance_paid = st.number_input("অগ্রিম পরিশোধ (Advance Paid)", min_value=0.0, value=0.0)
+    st.subheader("3. Payment & Settlement")
+    col4, col5 = st.columns(2)
     with col4:
+        discount = st.number_input("Discount Allowed (TK)", min_value=0.0, value=0.0)
+        paid_amount = st.number_input("Amount Paid (TK)", min_value=0.0, value=0.0)
+    with col5:
         total_payable = subtotal - discount
-        due_amount = total_payable - advance_paid
+        due_amount = total_payable - paid_amount
         if due_amount < 0: due_amount = 0.0
         
-        st.write(f"**মোট প্রদেয় টাকা:** {total_payable} ৳")
-        st.write(f"**মোট বাকি টাকা (Due):** {due_amount} ৳")
-
-    if st.button("Save Bill and Go to Print (ডাটা সেভ করুন)"):
-        if p_name and p_phone and tests:
-            test_str = ", ".join(tests)
-            c.execute('''
-                INSERT INTO billing (patient_name, age, phone, referred_by, test_names, total_bill, discount, paid, due, date, year)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (p_name, p_age, p_phone, referred_by, test_str, total_payable, discount, advance_paid, due_amount, current_date, current_year))
-            conn.commit()
-            st.success("🎉 বিলটি ডাটাবেজে আজীবনের জন্য সফলভাবে সেভ হয়েছে!")
+        st.markdown(f"### **Net Payable:** {total_payable:,.2f} TK")
+        if due_amount > 0:
+            st.markdown(f"⚠️ <span style='color:red; font-weight:bold;'>Total Due Amount: {due_amount:,.2f} TK</span>", unsafe_allow_html=True)
         else:
-            st.error("⚠️ দয়া করে নাম, মোবাইল নম্বর এবং অন্তত একটি টেস্ট সিলেক্ট করুন।")
+            st.markdown(f"✅ <span style='color:green; font-weight:bold;'>Fully Paid</span>", unsafe_allow_html=True)
 
-# ৪ নম্বর মডিউল: বছরের পর বছর হিসাব রাখার আর্কাইভ
-elif choice == "📊 Yearly Archive (আজীবন হিসাব)":
-    st.markdown("<h1 class='main-title'>📊 আজীবন হিসাব ও আর্কাইভ সেকশন</h1>", unsafe_allow_html=True)
-    st.write("এখানে কোনো নির্বাচন ছাড়াই বছরের পর বছর আপনার সমস্ত ডেটা সংরক্ষিত থাকবে।")
+    if st.button("Save Transaction & Generate Invoice"):
+        if p_name and p_phone and selected_tests:
+            test_str = ", ".join(selected_tests)
+            c.execute('''
+                INSERT INTO billing (patient_name, age, gender, phone, referred_by, test_names, total_bill, discount, paid_amount, due_amount, date, month, year)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (p_name, p_age, p_gender, p_phone, referred_by, test_str, total_payable, discount, paid_amount, due_amount, current_date, current_month, current_year))
+            conn.commit()
+            st.success(f"🎉 Bill saved successfully for {p_name}! Permanent Database Record Created.")
+        else:
+            st.error("⚠️ Validation Error: Please fill Name, Phone, and select at least one Test.")
+
+# MODULE 3: Lifetime Archive & Analytics
+elif choice == "📊 Financial Dashboard & Lifetime Archive":
+    st.markdown("<h1 class='main-title'>📊 Lifetime Financial Archive & Analytics</h1>", unsafe_allow_html=True)
     
-    # ডাটাবেজ থেকে উপলব্ধ সমস্ত বছরের তালিকা নেওয়া
-    years_df = pd.read_sql_query("SELECT DISTINCT year FROM billing", conn)
+    # Fetch all available years recorded in database
+    years_df = pd.read_sql_query("SELECT DISTINCT year FROM billing ORDER BY year DESC", conn)
+    
     if not years_df.empty:
         available_years = years_df['year'].tolist()
-        selected_year = st.selectbox("কোন বছরের হিসাব দেখতে চান সিলেক্ট করুন:", available_years)
+        selected_yr = st.selectbox("Select Financial Year to Audit:", available_years)
         
-        # নির্দিষ্ট বছরের ডেটা দেখানো
-        df_year = pd.read_sql_query(f"SELECT * FROM billing WHERE year='{selected_year}'", conn)
+        # Load filtered data
+        df_year = pd.read_sql_query(f"SELECT * FROM billing WHERE year='{selected_yr}'", conn)
         
-        st.write(f"### 📅 {selected_year} সালের মোট রিপোর্ট:")
-        st.dataframe(df_year)
+        # Display Summary Cards
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Total Patients Documented", f"{len(df_year)} Patients")
+        c2.metric("Total Net Earnings", f"{df_year['paid_amount'].sum():,.2f} TK")
+        c3.metric("Total Outstanding Receivables (Due)", f"{df_year['due_amount'].sum():,.2f} TK")
         
-        # মোট হিসাবের সামারি
-        st.markdown(f"""
-        * **ঐ বছরের মোট রোগী সংখ্যা:** {len(df_year)} জন
-        * **ঐ বছরের মোট অর্জিত ক্যাশ:** {df_year['paid'].sum()} ৳
-        * **ঐ বছরের মোট বকেয়া (Due):** {df_year['due'].sum()} ৳
-        """)
+        st.write("---")
+        st.subheader(f"Detailed Transaction Logs for Year: {selected_yr}")
+        st.dataframe(df_year[['id', 'patient_name', 'phone', 'test_names', 'total_bill', 'paid_amount', 'due_amount', 'date']])
     else:
-        st.warning("এখনো ডাটাবেজে কোনো দীর্ঘমেয়াদী হিসাব জমা হয়নি।")
+        st.warning("No long-term historical records found in the system database yet.")
