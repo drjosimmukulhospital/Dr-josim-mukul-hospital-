@@ -1,238 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dr. Jasim Mukul Hospital & Diagnostic</title>
+    <title>Rog Mukti Diagnostic - Dashboard</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <link rel="stylesheet" href="https://cloudflare.com">
     <style>
-        /* 📱 ল্যাপটপ এবং মোবাইলে হুবহু একই রকম সহজ স্ক্রোলিং লেআউট */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            margin: 0;
-            padding: 15px;
-        }
-        .container {
-            max-width: 750px;
-            background: #ffffff;
-            margin: 0 auto;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: relative;
-            box-sizing: border-box;
-        }
-        /* 🩺 Official Printed Pad Header */
-        .pad-header {
-            text-align: center;
-            border-bottom: 2px solid #00875a;
-            padding-bottom: 6px;
-            margin-bottom: 15px;
-        }
-        .logo-text-en {
-            color: #cc0000;
-            font-size: 22px;
-            font-weight: bold;
-            margin: 0;
-            letter-spacing: 0.5px;
-        }
-        .logo-text-en span { color: #00875a; }
-        .slogan {
-            font-size: 12px;
-            color: #555;
-            margin: 4px 0 0 0;
-            font-style: italic;
-        }
-        .receipt-title {
-            text-align: center;
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #333;
-            border: 1px solid #333;
-            width: 130px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 4px;
-            border-radius: 4px;
-            text-transform: uppercase;
-        }
-        /* 📝 সবার জন্য সহজ সোজা ফর্ম */
-        .patient-info {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            background: #f9f9f9;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid #e0e0e0;
-            margin-bottom: 15px;
-        }
-        .form-group { display: flex; flex-direction: column; }
-        .form-group.full-width { grid-column: span 2; }
-        label { font-weight: bold; margin-bottom: 4px; color: #333; font-size: 12px; }
-        input, select, textarea {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 13px;
-            box-sizing: border-box;
-            width: 100%;
-            background-color: #fff;
-        }
-        .print-value { display: none; padding: 4px 0; font-size: 14px; border-bottom: 1px dotted #ccc; }
-        .section-title { font-size: 14px; color: #1a4d80; border-bottom: 1px solid #ddd; padding-bottom: 4px; margin: 20px 0 10px 0; font-weight: bold; text-transform: uppercase; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 5px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 13px; }
-        th { background-color: #f2f2f2; }
-
-        .billing-summary { margin-top: 15px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-        .billing-box { display: flex; align-items: center; gap: 10px; }
-        .billing-box label { width: 120px; text-align: right; font-size: 13px; }
-        .billing-box input { width: 120px; text-align: right; font-weight: bold; }
-
-        .btn-submit {
-            background-color: #00875a; color: white; border: none; padding: 12px;
-            font-size: 15px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 15px;
-        }
-        .btn-add { background-color: #555; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; margin-top: 5px;}
-        .pad-footer { background-color: #1a4d80; color: white; text-align: center; padding: 10px; font-size: 12px; border-radius: 4px; margin-top: 25px; }
-        .watermark { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); font-size: 80px; font-weight: bold; color: rgba(0, 135, 90, 0.02); pointer-events: none; user-select: none; }
-
-        /* 📱 মোবাইলের জন্য ফর্ম এক কলামে সোজা হয়ে যাবে */
-        @media (max-width: 600px) {
-            .patient-info { grid-template-columns: 1fr; }
-            .form-group.full-width { grid-column: span 1; }
-        }
-
-        /* 🖨️ প্রিন্ট লেআউট (প্রিন্ট করলে শুধু রিসিট আসবে, বাটন বা খালি ঘর আসবে না) */
-        @media print {
-            @page { size: A4; margin: 10mm 15mm 10mm 15mm; }
-            body { background: #fff; padding: 0; margin: 0; }
-            .container { box-shadow: none; padding: 0; width: 100%; }
-            input, select, textarea, button, .btn-add, .btn-submit { display: none !important; }
-            .print-value { display: block !important; }
-            .patient-info { background: none !important; border: none !important; padding: 0 !important; gap: 6px; }
-            .grid-2 { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
-            th { background-color: #f2f2f2 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            tr.empty-row { display: none !important; }
-        }
+        body { background-color: #f4f6f9; font-family: 'Segoe UI', Arial, sans-serif; }
+        .sidebar { width: 260px; background: #fff; height: 100vh; position: fixed; box-shadow: 2px 0 5px rgba(0,0,0,0.05); padding: 20px 15px; }
+        .sidebar .nav-link { color: #495057; padding: 12px 20px; border-radius: 30px; margin-bottom: 8px; font-weight: 500; transition: all 0.3s; text-decoration: none; display: block; }
+        .sidebar .nav-link.active, .sidebar .nav-link:hover { background-color: #e8f4fd; color: #0d6efd; }
+        .sidebar .nav-link i { margin-right: 10px; width: 20px; }
+        .main-content { margin-left: 260px; padding: 30px; }
+        .stat-card { border: none; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .bg-pastel-blue { background-color: #eef2f7; color: #0d6efd; }
+        .bg-pastel-green { background-color: #eafaf1; color: #2e7d32; }
+        .bg-pastel-red { background-color: #fdedec; color: #c0392b; }
+        .custom-table { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="watermark">DJMH</div>
-
-    <!-- Hospital Pad Header -->
-    <div class="pad-header">
-        <h1 class="logo-text-en">DR. JASIM MUKUL HOSPITAL <span>& DIAGNOSTIC</span></h1>
-        <p class="slogan">"Modern Medical Services for Everyone"</p>
+    <!-- সাইডবার মেনু -->
+    <div class="sidebar">
+        <div class="text-center mb-4">
+            <h4 class="fw-bold text-primary">Rog Mukti</h4>
+            <span class="badge bg-light text-dark border">ডায়াগনস্টিক প্যানেল</span>
+        </div>
+        <hr>
+        <nav class="nav flex-column">
+            <a class="nav-link active" href="index.html"><i class="fa-solid fa-gauge"></i> ড্যাশবোর্ড</a>
+            <a class="nav-link" href="billing.html"><i class="fa-solid fa-file-invoice-dollar"></i> রোগী বিলিং</a>
+            <a class="nav-link" href="referral.html"><i class="fa-solid fa-user-doctor"></i> ডাক্তার রেফারেল</a>
+        </nav>
     </div>
 
-    <div class="receipt-title">Money Receipt</div>
+    <!-- মূল কনটেন্ট -->
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="fw-bold mb-0">আজকের লাইভ হিসাব</h3>
+                <small class="text-muted">তারিখ: ১৩ জুন, ২০২৬ | লাইভ মনিটর: প্রতি ১০ সেকেন্ডে অটো আপডেট</small>
+            </div>
+            <input type="date" class="form-control form-control-sm w-auto" value="2026-06-13">
+        </div>
 
-    <!-- Patient Information Form -->
-    <div class="section-title">Patient Information</div>
-    <div class="patient-info">
-        <div class="form-group">
-            <label>Patient Name:</label>
-            <input type="text" id="patientName" placeholder="Enter patient name">
-            <div id="pNamePrint" class="print-value">-</div>
+        <!-- ৩টি প্রধান ইনফো কার্ড (লাভ-ক্ষতি ছাড়া) -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card stat-card bg-pastel-blue p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1 small fw-bold">মোট রোগী</p>
+                            <h3 class="fw-bold mb-0">০৯ জন</h3>
+                        </div>
+                        <div class="fs-1"><i class="fa-solid fa-users"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stat-card bg-pastel-green p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1 small fw-bold">মোট কালেকশন</p>
+                            <h3 class="fw-bold mb-0">৳ ১৫,০৯৭</h3>
+                        </div>
+                        <div class="fs-1"><i class="fa-solid fa-wallet"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stat-card bg-pastel-red p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1 small fw-bold">মোট বাকি (Due)</p>
+                            <h3 class="fw-bold mb-0">৳ ৪,২০০</h3>
+                        </div>
+                        <div class="fs-1"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label>Age:</label>
-            <input type="text" id="patientAge" placeholder="Age">
-            <div id="pAgePrint" class="print-value">-</div>
-        </div>
-        <div class="form-group">
-            <label>Gender:</label>
-            <select id="patientGender">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-            </select>
-            <div id="pGenderPrint" class="print-value">-</div>
-        </div>
-        <div class="form-group">
-            <label>Date:</label>
-            <input type="date" id="visitDate">
-            <div id="pDatePrint" class="print-value">-</div>
-        </div>
-        <div class="form-group full-width">
-            <label>Address:</label>
-            <textarea id="patientAddress" rows="1" placeholder="Address"></textarea>
-            <div id="pAddressPrint" class="print-value">-</div>
-        </div>
-    </div>
 
-    <!-- Test List Table -->
-    <div class="section-title">Test Details</div>
-    <table id="billingTable">
-        <thead>
-            <tr>
-                <th style="width: 12%;">SL</th>
-                <th style="width: 60%;">Test Description</th>
-                <th style="width: 28%; text-align: right;">Price (TK)</th>
-            </tr>
-        </thead>
-        <tbody id="testTableBody">
-            <tr>
-                <td>1</td>
-                <td>
-                    <input type="text" style="width:95%;" class="test-name" placeholder="e.g. CBC, RBS">
-                    <div class="print-value test-name-print"></div>
-                </td>
-                <td>
-                    <input type="number" class="test-price" style="width:90%; text-align: right;" placeholder="0.00" oninput="calculateTotal()">
-                    <div class="print-value test-price-print" style="text-align: right;"></div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <button type="button" class="btn-add" onclick="addTableRow()">+ Add More Test</button>
-
-    <!-- Total Billing Area -->
-    <div class="billing-summary">
-        <div class="billing-box">
-            <label>Total Price:</label>
-            <input type="number" id="totalPrice" readonly value="0">
-            <div id="totalPricePrint" class="print-value">0.00 TK</div>
-        </div>
-        <div class="billing-box">
-            <label>Discount (TK):</label>
-            <input type="number" id="discount" value="0" oninput="calculateTotal()">
-            <div id="discountPrint" class="print-value">0.00 TK</div>
-        </div>
-        <div class="billing-box">
-            <label>Advance Paid (TK):</label>
-            <input type="number" id="advancePaid" value="0" oninput="calculateTotal()">
-            <div id="advancePrint" class="print-value">0.00 TK</div>
-        </div>
-        <div class="billing-box">
-            <label>Due Amount:</label>
-            <input type="number" id="dueAmount" readonly value="0" style="color: #cc0000;">
-            <div id="duePrint" class="print-value" style="font-weight: bold; color: #cc0000;">0.00 TK</div>
-        </div>
-        <div class="billing-box">
-            <label>Net Paid:</label>
-            <input type="number" id="netPaid" readonly value="0" style="background-color: #eafaf1; color: #00875a;">
-            <div id="netPaidPrint" class="print-value" style="font-weight: bold; color: #00875a;">0.00 TK</div>
+        <!-- বিল তালিকা টেবিল -->
+        <div class="custom-table p-4 bg-white">
+            <h5 class="fw-bold mb-4"><i class="fa-solid fa-list text-primary me-2"></i> বিস্তারিত বিল তালিকা</h5>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>বিল নং</th>
+                            <th>রোগীর নাম</th>
+                            <th>রেফার্ড ডাক্তার</th>
+                            <th>টেস্ট সমূহ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>১</td>
+                            <td>MD TANVIR</td>
+                            <td>Abdur Rahman DMF</td>
+                            <td><span class="badge bg-light text-dark">2hr. After Breakfast</span></td>
+                        </tr>
+                        <tr>
+                            <td>২</td>
+                            <td>Md. Tanvir Hasan</td>
+                            <td>Abdur Rahman DMF</td>
+                            <td><span class="badge bg-light text-dark">Aso Titre(500.0)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <!-- Final Print Action Button -->
-    <button class="btn-submit" onclick="prepareAndPrint()">Print Money Receipt</button>
-
-    <!-- Official Pad Footer -->
-    <div class="pad-footer">
-        VIP Road, Galachipa, Patuakhali. Phone: 01312-049981
-    </div>
-</div>
-
-<script>
-    // আজকের তারিখ অটোমেটিক সেট করা
-    document.getElementById('visitDate').valueAsDate = new Date();
-
-    function calculateTotal() {
+</body>
+</html>
