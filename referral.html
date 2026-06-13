@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Referral - Rog Mukti</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        body { background-color: #f4f6f9; font-family: 'Segoe UI', Arial, sans-serif; }
+        .sidebar { width: 260px; background: #fff; height: 100vh; position: fixed; box-shadow: 2px 0 5px rgba(0,0,0,0.05); padding: 20px 15px; }
+        .sidebar .nav-link { color: #495057; padding: 12px 20px; border-radius: 30px; margin-bottom: 8px; font-weight: 500; transition: all 0.3s; text-decoration: none; display: block; }
+        .sidebar .nav-link.active, .sidebar .nav-link:hover { background-color: #e8f4fd; color: #0d6efd; }
+        .sidebar .nav-link i { margin-right: 10px; width: 20px; }
+        .main-content { margin-left: 260px; padding: 30px; }
+        .custom-table { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="text-center mb-4">
+            <h4 class="fw-bold text-primary">Rog Mukti</h4>
+            <span class="badge bg-light text-dark border">ডায়াগনস্টিক প্যানেল</span>
+        </div>
+        <hr>
+        <nav class="nav flex-column">
+            <a class="nav-link" href="index.html"><i class="fa-solid fa-gauge"></i> ড্যাশবোর্ড</a>
+            <a class="nav-link" href="billing.html"><i class="fa-solid fa-file-invoice-dollar"></i> রোগী বিলিং</a>
+            <a class="nav-link active" href="referral.html"><i class="fa-solid fa-user-doctor"></i> ডাক্তার রেফারেল</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <h3 class="fw-bold mb-4">Doctor-wise Referral Fee Summary</h3>
+        <div class="custom-table p-4 bg-white">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ডাক্তারের নাম</th>
+                            <th>মোট রেফারকৃত রোগী</th>
+                            <th>মোট রেফারেল ফি (টাকা)</th>
+                            <th>অ্যাকশন</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold">Abdur Rahman DMF</td>
+                            <td>৭ জন</td>
+                            <td>৳ ৩,৫০০</td>
+                            <td><button class="btn btn-sm btn-outline-primary rounded-pill px-3">বিস্তারিত</button></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Md. Moshior Rahman MBBS BCS PGT</td>
+                            <td>২ জন</td>
+                            <td>৳ ১,২০০</td>
+                            <td><button class="btn btn-sm btn-outline-primary rounded-pill px-3">বিস্তারিত</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
