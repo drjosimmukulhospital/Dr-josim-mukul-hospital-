@@ -3,75 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Billing - Rog Mukti</title>
+    <title>Professional Billing - Rog Mukti</title>
+    <!-- CSS লোড নিশ্চিত করার জন্য শক্তিশালী CDN লিংক -->
     <link href="https://jsdelivr.net" rel="stylesheet">
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
-        body { background-color: #f4f6f9; font-family: 'Segoe UI', Arial, sans-serif; }
-        .sidebar { width: 260px; background: #fff; height: 100vh; position: fixed; box-shadow: 2px 0 5px rgba(0,0,0,0.05); padding: 20px 15px; }
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', Roboto, sans-serif; }
+        .sidebar { width: 260px; background: #fff; height: 100vh; position: fixed; box-shadow: 2px 0 10px rgba(0,0,0,0.05); padding: 20px 15px; z-index: 100; }
         .sidebar .nav-link { color: #495057; padding: 12px 20px; border-radius: 30px; margin-bottom: 8px; font-weight: 500; transition: all 0.3s; text-decoration: none; display: block; }
         .sidebar .nav-link.active, .sidebar .nav-link:hover { background-color: #e8f4fd; color: #0d6efd; }
         .sidebar .nav-link i { margin-right: 10px; width: 20px; }
-        .main-content { margin-left: 260px; padding: 30px; }
-        .form-container { background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .main-content { margin-left: 260px; padding: 40px 30px; }
+        .billing-card { background: #fff; border-radius: 16px; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.04); padding: 30px; }
+        .invoice-box { border: 1px solid #dee2e6; border-radius: 12px; padding: 20px; background: #fafafa; }
+        
+        /* প্রিন্ট করার জন্য বিশেষ স্টাইল */
+        @media print {
+            .sidebar, .main-content > h3, .no-print { display: none !important; }
+            .main-content { margin-left: 0 !important; padding: 0 !important; }
+            .billing-card { box-shadow: none !important; padding: 0 !important; }
+            .invoice-box { border: none !important; background: #fff !important; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
+    <!-- সাইডবার মেনু -->
+    <div class="sidebar no-print">
         <div class="text-center mb-4">
-            <h4 class="fw-bold text-primary">Rog Mukti</h4>
-            <span class="badge bg-light text-dark border">ডায়াগনস্টিক প্যানেল</span>
+            <h4 class="fw-bold text-primary mb-1">Rog Mukti</h4>
+            <span class="badge bg-light text-secondary border">ডিজিটাল প্যানেল</span>
         </div>
         <hr>
         <nav class="nav flex-column">
-            <a class="nav-link" href="index.html"><i class="fa-solid fa-gauge"></i> ড্যাশবোর্ড</a>
-            <a class="nav-link active" href="billing.html"><i class="fa-solid fa-file-invoice-dollar"></i> রোগী বিলিং</a>
-            <a class="nav-link" href="referral.html"><i class="fa-solid fa-user-doctor"></i> ডাক্তার রেফারেল</a>
+            <a class="nav-link" href="index.html"><i class="fa-solid fa-chart-pie"></i> ড্যাশবোর্ড</a>
+            <a class="nav-link active" href="billing.html"><i class="fa-solid fa-receipt"></i> রোগী বিলিং</a>
+            <a class="nav-link" href="referral.html"><i class="fa-solid fa-user-md"></i> ডাক্তার রেফারেল</a>
         </nav>
     </div>
 
+    <!-- মূল কন্টেন্ট -->
     <div class="main-content">
-        <h3 class="fw-bold mb-4">নতুন রোগী এন্ট্রি ও বিলিং</h3>
-        <div class="form-container">
-            <form>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold">রোগীর নাম</label>
-                        <input type="text" class="form-control" placeholder="নাম লিখুন">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold">মোবাইল নাম্বার</label>
-                        <input type="text" class="form-control" placeholder="০১৭XXXXXXXX">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold">রেফার্ড ডাক্তার</label>
-                        <select class="form-select">
-                            <option selected>ডাক্তার সিলেক্ট করুন...</option>
-                            <option>Abdur Rahman DMF</option>
-                            <option>Md. Moshior Rahman MBBS</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold">ল্যাব টেস্ট সিলেক্ট করুন</label>
-                        <input type="text" class="form-control" placeholder="যেমন: Bilirubin, Blood Sugar">
+        <h3 class="fw-bold mb-4 no-print"><i class="fa-solid fa-file-invoice text-primary me-2"></i> পেশেন্ট কাউন্টার ও বিলিং</h3>
+        
+        <div class="billing-card">
+            <div class="row g-4">
+                <!-- বাম পাশ: তথ্য এন্ট্রি ফর্ম -->
+                <div class="col-lg-7 no-print">
+                    <h5 class="fw-bold text-secondary mb-3">রোগী ও টেস্টের বিবরণ</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label font-monospace small">রোগীর নাম</label>
+                            <input type="text" id="patientName" class="form-control" placeholder="যেমন: মোঃ তানভীর" oninput="updateInvoice()">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label font-monospace small">মোবাইল নাম্বার</label>
+                            <input type="text" id="patientPhone" class="form-control" placeholder="017XXXXXXXX" oninput="updateInvoice()">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label font-monospace small">রেফার্ড ডাক্তার</label>
+                            <select id="referredDoctor" class="form-select" onchange="updateInvoice()">
+                                <option value="Self / None">সিলেক্ট করুন...</option>
+                                <option value="Abdur Rahman DMF">Abdur Rahman DMF</option>
+                                <option value="Md. Moshior Rahman MBBS">Md. Moshior Rahman MBBS</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label font-monospace small">টেস্ট যুক্ত করুন</label>
+                            <select id="testSelect" class="form-select">
+                                <option value="" data-price="0">টেস্ট সিলেক্ট করুন...</option>
+                                <option value="CBC (Complete Blood Count)" data-price="400">CBC — ৪০০ ৳</option>
+                                <option value="Lipid Profile" data-price="1000">Lipid Profile — ১০০০ ৳</option>
+                                <option value="Bilirubin Total" data-price="300">Bilirubin Total — ৩০০ ৳</option>
+                                <option value="Blood Sugar (2hr. AB)" data-price="150">Blood Sugar (2hr. AB) — ১৫০ ৳</option>
+                                <option value="Ultrasonography (USG)" data-price="1200">Ultrasonography (USG) — ১২০০ ৳</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="button" class="btn btn-primary w-100" onclick="addTest()"><i class="fa-solid fa-plus me-1"></i> যুক্ত করুন</button>
+                        </div>
                     </div>
                 </div>
-                <hr>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-success">মোট কালেকশন (টাকা)</label>
-                        <input type="number" class="form-control border-success" placeholder="0.00">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-danger">মোট বাকি (টাকা)</label>
-                        <input type="number" class="form-control border-danger" placeholder="0.00">
+
+                <!-- ডান পাশ: প্রফেশনাল ইনভয়েস ও রসিদ প্রিভিউ -->
+                <div class="col-lg-5">
+                    <div class="invoice-box">
+                        <div class="text-center mb-3">
+                            <h4 class="fw-bold mb-0 text-uppercase text-primary">Rog Mukti Diagnostic</h4>
+                            <small class="text-muted">হসপিটাল রোড, ঢাকা | ফোন: ০১৭০০০০০০০০</small>
+                            <hr class="my-2">
+                            <h6 class="bg-light py-1 fw-bold border text-secondary rounded">মানি রিসিট / বিল</h6>
+                        </div>
+
+                        <!-- রোগীর লাইভ মেমো তথ্য -->
+                        <div class="mb-3 small">
+                            <div><strong>নাম:</strong> <span id="invName">---</span></div>
+                            <div><strong>মোবাইল:</strong> <span id="invPhone">---</span></div>
+                            <div><strong>ডাক্তার:</strong> <span id="invDoc">---</span></div>
+                            <div><strong>তারিখ:</strong> <span id="invDate">১৩ জুন, ২০২৬</span></div>
+                        </div>
+
+                        <!-- টেস্ট তালিকা -->
+                        <table class="table table-sm table-bordered small">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>টেস্ট বিবরণ</th>
+                                    <th class="text-end" style="width: 80px;">মূল্য</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoiceTests">
+                                <tr>
+                                    <td colspan="2" class="text-center text-muted py-3">কোনো টেস্ট যুক্ত করা হয়নি</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- টাকার হিসাব -->
+                        <div class="border-top pt-2 small">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>সর্বমোট বিল (Total):</span>
+                                <span class="fw-bold">৳ <span id="totalBill">0</span></span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-1 no-print">
+                                <span>ডিসকাউন্ট (৳):</span>
+                                <input type="number" id="discountInput" class="form-control form-control-sm text-end w-25" value="0" oninput="calculateTotal()">
+                            </div>
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>নিট পরিশোধযোগ্য (Net Pay):</span>
+                                <span class="fw-bold text-success">৳ <span id="netBill">0</span></span>
+                            </div>
+                        </div>
+
+                        <!-- প্রিন্ট বাটন -->
+                        <button class="btn btn-success w-100 mt-3 rounded-pill no-print" onclick="window.print()"><i class="fa-solid fa-print me-2"></i>রসিদ প্রিন্ট করুন</button>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary px-4 rounded-pill"><i class="fa-solid fa-print me-2"></i>বিল ও রসিদ প্রিন্ট করুন</button>
-            </form>
+            </div>
         </div>
     </div>
 
-</body>
-</html>
+    <!-- লজিক ও অটো রেট জাভাস্ক্রিপ্ট -->
+    <script>
+        let selectedTests = [];
+
+        function updateInvoice() {
+            document.getElementById('invName').innerText = document.getElementById('patientName').value || '---';
+            document.getElementById('invPhone').innerText = document.getElementById('patientPhone').value || '---';
+            document.getElementById('invDoc').innerText = document.getElementById('referredDoctor').value || '---';
+        }
+
+        function addTest() {
+            const select = document.getElementById('testSelect');
+            const selectedOption = select.options[select.selectedIndex];
+            const testName = selectedOption.value;
+            const testPrice = parseInt(selectedOption.getAttribute('data-price'));
+
+            if (!testName) return;
+
+            // একই টেস্ট বারবার যুক্ত হওয়া বন্ধ করা
+            if (selectedTests.some(t => t.name === testName)) {
+                alert('এই টেস্টটি ইতিমধ্যে যুক্ত করা হয়েছে!');
+                return;
+            }
+
+            selectedTests.push({ name: testName, price: testPrice });
+            renderTests();
+            select.selectedIndex = 0;
+        }
