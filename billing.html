@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Billing - Rog Mukti</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        body { background-color: #f4f6f9; font-family: 'Segoe UI', Arial, sans-serif; }
+        .sidebar { width: 260px; background: #fff; height: 100vh; position: fixed; box-shadow: 2px 0 5px rgba(0,0,0,0.05); padding: 20px 15px; }
+        .sidebar .nav-link { color: #495057; padding: 12px 20px; border-radius: 30px; margin-bottom: 8px; font-weight: 500; transition: all 0.3s; text-decoration: none; display: block; }
+        .sidebar .nav-link.active, .sidebar .nav-link:hover { background-color: #e8f4fd; color: #0d6efd; }
+        .sidebar .nav-link i { margin-right: 10px; width: 20px; }
+        .main-content { margin-left: 260px; padding: 30px; }
+        .form-container { background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="text-center mb-4">
+            <h4 class="fw-bold text-primary">Rog Mukti</h4>
+            <span class="badge bg-light text-dark border">ডায়াগনস্টিক প্যানেল</span>
+        </div>
+        <hr>
+        <nav class="nav flex-column">
+            <a class="nav-link" href="index.html"><i class="fa-solid fa-gauge"></i> ড্যাশবোর্ড</a>
+            <a class="nav-link active" href="billing.html"><i class="fa-solid fa-file-invoice-dollar"></i> রোগী বিলিং</a>
+            <a class="nav-link" href="referral.html"><i class="fa-solid fa-user-doctor"></i> ডাক্তার রেফারেল</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <h3 class="fw-bold mb-4">নতুন রোগী এন্ট্রি ও বিলিং</h3>
+        <div class="form-container">
+            <form>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">রোগীর নাম</label>
+                        <input type="text" class="form-control" placeholder="নাম লিখুন">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">মোবাইল নাম্বার</label>
+                        <input type="text" class="form-control" placeholder="০১৭XXXXXXXX">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">রেফার্ড ডাক্তার</label>
+                        <select class="form-select">
+                            <option selected>ডাক্তার সিলেক্ট করুন...</option>
+                            <option>Abdur Rahman DMF</option>
+                            <option>Md. Moshior Rahman MBBS</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">ল্যাব টেস্ট সিলেক্ট করুন</label>
+                        <input type="text" class="form-control" placeholder="যেমন: Bilirubin, Blood Sugar">
+                    </div>
+                </div>
+                <hr>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-success">মোট কালেকশন (টাকা)</label>
+                        <input type="number" class="form-control border-success" placeholder="0.00">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-danger">মোট বাকি (টাকা)</label>
+                        <input type="number" class="form-control border-danger" placeholder="0.00">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary px-4 rounded-pill"><i class="fa-solid fa-print me-2"></i>বিল ও রসিদ প্রিন্ট করুন</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
