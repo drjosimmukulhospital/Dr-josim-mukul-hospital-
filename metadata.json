@@ -1,0 +1,8 @@
+{
+  "name": "Remix: ProStyle Replicator",
+  "description": "Transform your photos into professional portraits by mimicking the lighting, mood, and style of any reference image provided.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
